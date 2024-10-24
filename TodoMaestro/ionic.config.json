@@ -1,0 +1,7 @@
+{
+  "name": "TodoMaestro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
