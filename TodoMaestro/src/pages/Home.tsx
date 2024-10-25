@@ -1,23 +1,19 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import Drawer from '../components/drawer';
+import Tabbar from '../components/tabbar';
+import BtnPublicar from '../components/btnPublicar';
 
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Blank</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Drawer/>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+
+        {/* Asegúrate de que Tabbar no esté dentro de IonToolbar */}
+        <Tabbar/>
       </IonContent>
+
+      <BtnPublicar/>
     </IonPage>
   );
 };
