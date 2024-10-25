@@ -13,8 +13,13 @@ const Drawer: React.FC = () => {
         </IonHeader>
         <IonContent className="ion-padding">
           <IonItem>
-            <IonButton routerLink="#" expand="block" fill="clear">
+            <IonButton routerLink="/perfil" expand="block" fill="clear">
               Mi perfil
+            </IonButton>
+          </IonItem>
+          <IonItem>
+            <IonButton routerLink="/home" expand="block" fill="clear">
+              Inicio
             </IonButton>
           </IonItem>
           <IonItem>
@@ -23,7 +28,7 @@ const Drawer: React.FC = () => {
             </IonButton>
           </IonItem>
           <IonItem>
-            <IonButton routerLink="#" expand="block" fill="clear">
+            <IonButton routerLink="/misPublicaciones" expand="block" fill="clear">
               Mis publicaciones
             </IonButton>
           </IonItem>
@@ -39,7 +44,7 @@ const Drawer: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>Menu</IonTitle>
+            
           </IonToolbar>
       </IonHeader>
     </>

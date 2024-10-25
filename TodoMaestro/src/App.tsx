@@ -5,7 +5,8 @@ import Home from './pages/Home';
 import Bienvenida from './pages/Bienvenida';
 import Registrarse from './pages/Registrarse';
 import InicioSesion from './pages/IniciarSesion';
-
+import MisPublicaciones from './pages/MisPublicaciones';
+import MiPerfil from './pages/MiPerfil';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,7 +45,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/Bienvenida">
+        <Route exact path="/bienvenida">
           <Bienvenida />
         </Route>
         <Route exact path="/home">
@@ -53,11 +54,17 @@ const App: React.FC = () => (
         <Route exact path="/registrarse">
           <Registrarse />
         </Route>
-        <Route exact path="/InicioSesion">
+        <Route exact path="/inicioSesion">
           <InicioSesion />
         </Route>
+        <Route exact path="/misPublicaciones">
+          <MisPublicaciones />
+        </Route>
+        <Route exact path="/perfil">
+          <MiPerfil />
+        </Route>
         <Route exact path="/">
-          <Redirect to="/Bienvenida" />
+          <Redirect to="/bienvenida" />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
