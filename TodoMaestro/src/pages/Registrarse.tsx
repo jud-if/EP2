@@ -1,54 +1,62 @@
 import React,{ useState } from 'react';
-import { IonContent,IonHeader, IonPage, IonTitle, IonToolbar,IonItem,IonLabel,IonSelect,IonSelectOption,IonInput,IonText,IonButton, IonBackButton, IonButtons, IonList} from '@ionic/react';
+import { IonContent,IonHeader, IonPage, IonTitle, IonToolbar,IonItem,IonLabel,IonSelect,IonSelectOption,IonInput,IonText,IonButton, IonBackButton, IonButtons, IonList, IonIcon} from '@ionic/react';
+import { useHistory } from 'react-router';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 
 const Registrarse: React.FC = () => {
 
-    const [userData, setUserData] = useState({
-        region: '',
-        comuna: '',
-        usuario: '',
-        password: '',
-        confirmPassword: '',
-        email: ''
-      });
-    
-      const [error, setError] = useState('');
-    
-      const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        setUserData({
-          ...userData,
-          [name]: value
-        });
+  const [userData, setUserData] = useState({
+      region: '',
+      comuna: '',
+      usuario: '',
+      password: '',
+      confirmPassword: '',
+      email: ''
+  });
+  
+  const [error, setError] = useState('');
+  
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+      setUserData({
+        ...userData,
+        [name]: value
+    });   
+  };
 
+  const handleRegister = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (!userData.region || !userData.comuna || !userData.usuario || !userData.password || !userData.confirmPassword || !userData.email) {
+      setError('Por favor completa todos los campos');
+    } else if (!emailRegex.test(userData.email)) {
+      setError('Por favor ingresa un email válido');
+    } else if (userData.password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
+    } else if (userData.password !== userData.confirmPassword) {
+      setError('Las contraseñas no coinciden');
+    } else {
+      setError('');
+      console.log('Datos de registro:', userData);
+    }
+  };
+  
 
-        
-      };
-      const handleRegister = () => {
-        if (!userData.region || !userData.comuna || !userData.usuario || !userData.password || !userData.confirmPassword || !userData.email) {
-          setError('Por favor completa todos los campos');
-        } else if (userData.password.length < 6) {
-          setError('La contraseña debe tener al menos 6 caracteres');
-        } else if (userData.password !== userData.confirmPassword) {
-          setError('Las contraseñas no coinciden');
-        } else {
-          setError('');
-          console.log('Datos de registro:', userData);
-        }
-
-      }
-
-    return (
+  const history = useHistory();
+  return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-              <IonBackButton defaultHref="#"></IonBackButton>
+            <IonButton onClick={() => history.goBack()}>
+              <IonIcon icon={arrowBack} style={{ fontSize: '24px', padding: '14px'}}></IonIcon>
+            </IonButton>
           </IonButtons>
           <IonTitle>Registro</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+
+      <IonContent className="ion-padding" fullscreen>
         <IonList>
           <IonItem>
             <IonInput
@@ -65,7 +73,7 @@ const Registrarse: React.FC = () => {
             <IonInput
               label='Email'
               type="email"
-              name="Ingresar email"
+              name="email"
               value={userData.email}
               placeholder="email@domain.com"
               onIonChange={handleChange}
@@ -104,7 +112,6 @@ const Registrarse: React.FC = () => {
               <IonSelectOption value="Region Metropolitana">Región Metropolitana</IonSelectOption>
               <IonSelectOption value="Valparaíso">Valparaíso</IonSelectOption>
               <IonSelectOption value="Biobío">Biobío</IonSelectOption>
-              {/* Agrega más opciones de regiones aquí */}
             </IonSelect>
           </IonItem>
 
@@ -132,6 +139,7 @@ const Registrarse: React.FC = () => {
         </IonList>
       </IonContent>
     </IonPage>
-    )};
+  );
+};
 
 export default Registrarse;

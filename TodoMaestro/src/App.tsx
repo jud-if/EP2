@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Bienvenida from './pages/Bienvenida';
@@ -7,6 +7,7 @@ import Registrarse from './pages/Registrarse';
 import InicioSesion from './pages/IniciarSesion';
 import MisPublicaciones from './pages/MisPublicaciones';
 import MiPerfil from './pages/MiPerfil';
+import Guardados from './pages/Guardados';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -37,6 +38,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Drawer from './components/drawer';
 
 
 setupIonicReact();
@@ -45,28 +47,24 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/bienvenida">
-          <Bienvenida />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/registrarse">
-          <Registrarse />
-        </Route>
-        <Route exact path="/inicioSesion">
-          <InicioSesion />
-        </Route>
-        <Route exact path="/misPublicaciones">
-          <MisPublicaciones />
-        </Route>
-        <Route exact path="/perfil">
-          <MiPerfil />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/bienvenida" />
-        </Route>
+        <Route path="/bienvenida" component={Bienvenida} exact />
+        <Route path="/registrarse" component={Registrarse} exact />
+        <Route path="/iniciosesion" component={InicioSesion} exact />
+        <Redirect exact from="/" to="/bienvenida" />
       </IonRouterOutlet>
+
+      <Route path="/app">
+        <Drawer /> 
+        <IonSplitPane contentId="main-content">
+
+          <IonRouterOutlet id="main-content">
+            <Route path="/app/home" component={Home} exact />
+            <Route path="/app/mispublicaciones" component={MisPublicaciones} exact />
+            <Route path="/app/miperfil" component={MiPerfil} exact />
+            <Route path="/app/guardados" component={Guardados} exact />
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </Route>
     </IonReactRouter>
   </IonApp>
 );

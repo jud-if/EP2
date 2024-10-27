@@ -14,7 +14,8 @@ const btnPublicar: React.FC = () => {
           </IonFabButton>
           <IonFabList side="top">
             <IonFabButton>
-              <IonIcon icon={add}></IonIcon>
+              <IonIcon icon={add}>
+              </IonIcon>
             </IonFabButton>
             <IonFabButton>
               <IonIcon icon={filterOutline}></IonIcon>

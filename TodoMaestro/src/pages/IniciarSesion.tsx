@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonList, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import './InicioSesion.css';
+import { arrowBack } from 'ionicons/icons';
 
 const InicioSesion: React.FC = () => {
   // Constantes para credenciales locales
@@ -19,8 +20,8 @@ const InicioSesion: React.FC = () => {
   // Función de manejo de inicio de sesión
   const handleLogin = () => {
     if (email === credenciales.email && password === credenciales.password) {
-      // Redirigir a otra ruta en caso de éxito
-      history.push('/home');
+      // Redirigir a home en caso de éxito
+      history.push('/app/home');
     } else {
       alert('Credenciales incorrectas');
     }
@@ -31,7 +32,9 @@ const InicioSesion: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="#"></IonBackButton>
+            <IonButton onClick={() => history.goBack()}>
+              <IonIcon icon={arrowBack} style={{ fontSize: '24px', padding: '14px'}}></IonIcon>
+            </IonButton>
           </IonButtons>
           <IonTitle>Iniciar Sesión</IonTitle>
         </IonToolbar>

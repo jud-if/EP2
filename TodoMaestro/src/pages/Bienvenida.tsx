@@ -12,30 +12,28 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-justify=content-center">
-        <section className="hero">
-          <IonGrid>
-            <IonRow className="ion-justify-content-center">
-              <IonCol size="12" sizeLg="6">
-                <img src={images.imgTrabajo2} alt="Herramientas" style={{width: '100px'}}/>
-                <IonText>
-                  <h1>
-                    ¿<span style={{ color: '#4275F0' }}>Buscas un servicio</span> u <span style={{ color: '#286359' }}>ofreces uno</span>?
-                  </h1>
-                </IonText>
-                <img src={images.imgTrabajo1} alt="Tuberias" style={{width: '150px'}} />
-              </IonCol>
-              <IonCol className="ion-justify-content-center ion-margin-top">
-                <IonButton routerLink="/InicioSesion" expand="block">
-                  Tengo cuenta
-                </IonButton>
-                <IonButton routerLink="/Registrarse" expand="block">
-                  Soy nuevo
-                </IonButton>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </section>
+      <IonContent className="ion-text-center ion-justify-content-center" >
+        <IonGrid style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }} >
+          <IonRow>
+            <IonCol size="12" sizeLg="6">
+              <img src={images.imgTrabajo2} alt="Herramientas" style={{width: '100px'}}/>
+              <IonText>
+                <h1 className='tituloBienvenida'>
+                  ¿<span style={{ color: '#4275F0' }}>Buscas un servicio</span> u <span style={{ color: '#286359' }}>ofreces uno</span>?
+                </h1>
+              </IonText>
+              <img src={images.imgTrabajo1} alt="Tuberias" style={{width: '150px'}} />
+            </IonCol>
+            <IonCol className="ion-justify-content-center ion-margin-top">
+              <IonButton routerLink="/iniciosesion" routerDirection='forward' expand="block">
+                Tengo cuenta
+              </IonButton>
+              <IonButton routerLink="/registrarse" routerDirection='forward' expand="block">
+                Soy nuevo
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

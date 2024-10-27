@@ -1,90 +1,47 @@
-import React, { useState } from 'react';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonLabel, 
-  IonSegment, 
-  IonSegmentButton, 
-  IonTitle, 
-  IonToolbar, 
-  IonCard, 
-  IonCardHeader, 
-  IonCardTitle, 
-  IonCardContent, 
-  IonSearchbar,
-  IonCardSubtitle,
-  IonButton,
-  IonIcon,
-  IonButtons
-} from '@ionic/react';
-import { bookmark, bookmarkOutline, bookmarkSharp, logoIonic } from 'ionicons/icons';
+import React, { useState, useEffect } from 'react';
+import { IonContent, IonToolbar, IonLabel, IonSegment, IonSegmentButton, IonSearchbar } from '@ionic/react';
+import CardItem from './cardItem';
 
-const Tabbar: React.FC = () => {
-  // Paso 1: Definir el estado para manejar la opción seleccionada
-  const [selectedSegment, setSelectedSegment] = useState<string>('servicios');
+interface TabbarProps {
+  firstOption: string;
+  secondOption: string;
+  cardsData: {
+    [key: string]: { title: string; subtitle?: string; content: string; actions: { label: string; icon?: string }[] }[];
+  };
+}
 
-  // Paso 2: Manejador de cambios en el IonSegment
+const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData }) => {
+  const [selectedSegment, setSelectedSegment] = useState<string>(firstOption.toLowerCase());
+
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
   };
 
-  // Paso 3: Renderizar cards condicionalmente basado en la selección
   const renderCards = () => {
-    if (selectedSegment === 'servicios') {
-      return (
-        <div>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>Servicio 1</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              Descripción del servicio 1.
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>Servicio 2</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              Descripción del servicio 2.
-            </IonCardContent>
-          </IonCard>
-        </div>
-      );
-    } else if (selectedSegment === 'favorites') {
-      return (
-        <div>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>Card Title</IonCardTitle>
-              <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-            </IonCardHeader>
-
-          <IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>
-            <IonButton fill="clear"><IonIcon icon={bookmarkOutline} size='large'></IonIcon></IonButton>
-            <IonButton fill="clear">Leer mas</IonButton>
-          </IonCard>
-        </div>
-      );
+    const currentCards = cardsData[selectedSegment];
+    if (!currentCards || currentCards.length === 0) {
+      return <p>No hay elementos disponibles.</p>;
     }
+    return currentCards.map((card, index) => (
+      <CardItem key={index} {...card} />
+    ));
   };
 
   return (
     <>
       <IonToolbar>
-      <IonSearchbar showCancelButton="never" placeholder="Show on Focus" ></IonSearchbar>
+        <IonSearchbar showCancelButton="never" placeholder="Buscar..." />
         <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
-          <IonSegmentButton value="servicios">
-            <IonLabel>Contratar</IonLabel>
+          <IonSegmentButton value={firstOption.toLowerCase()}>
+            <IonLabel>{firstOption}</IonLabel>
           </IonSegmentButton>
-          <IonSegmentButton value="favorites">
-            <IonLabel>Trabajar</IonLabel>
+          <IonSegmentButton value={secondOption.toLowerCase()}>
+            <IonLabel>{secondOption}</IonLabel>
           </IonSegmentButton>
         </IonSegment>
       </IonToolbar>
 
       <IonContent>
-        {/* Paso 4: Mostrar la lista de cards basadas en la opción seleccionada */}
         {renderCards()}
       </IonContent>
     </>
