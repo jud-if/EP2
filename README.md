@@ -25,7 +25,7 @@ Debido a que en la ultima entrega se nos aviso que las paginas no se consideraba
 * Editar Perfil  (opcion que aparece en mi perfil) 
 
 # Aplicacion Patrones
-    En cuanto a Patronesde diseño, terminamos implementando drawer y tabbar, otro punto es que agregamos en algunos puntos la flecha de back
+En cuanto a Patronesde diseño, terminamos implementando drawer y tabbar, otro punto es que agregamos en algunos puntos la flecha de back
 # Lectura JSON
 Por ultimo, el caso de la lectura JSON se hace en el perfil, donde al meterse a mi perfil, se mostraran datos basicos que se leen desde un JSON que se encuentra en la carpeta public
 
