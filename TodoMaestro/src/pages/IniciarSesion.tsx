@@ -3,14 +3,10 @@ import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, I
 import { useHistory } from 'react-router-dom';
 import './InicioSesion.css';
 import { arrowBack } from 'ionicons/icons';
+//@ts-ignore
+import api from '../services/api';
 
 const InicioSesion: React.FC = () => {
-  // Constantes para credenciales locales
-  const credenciales = {
-    email: "usuario@ejemplo.com",
-    password: "123456"
-  };
-
   // Estado para los datos de inicio de sesión
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,11 +14,19 @@ const InicioSesion: React.FC = () => {
   const history = useHistory();
 
   // Función de manejo de inicio de sesión
-  const handleLogin = () => {
-    if (email === credenciales.email && password === credenciales.password) {
-      // Redirigir a home en caso de éxito
+  const handleLogin = async () => {
+    try {
+      // Realiza la solicitud POST para autenticar y obtener el token JWT
+      const response = await api.post('/auth/login', { email, password });
+      const { token } = response.data;
+
+      // Guarda el token en localStorage
+      localStorage.setItem('authToken', token);
+
+      // Redirige al usuario a la página principal en caso de éxito
       history.push('/app/home');
-    } else {
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error);
       alert('Credenciales incorrectas');
     }
   };
