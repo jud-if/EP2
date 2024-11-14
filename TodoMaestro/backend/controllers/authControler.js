@@ -7,15 +7,18 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 exports.register = async (req, res) => {
+
   console.log("aqui llegamos antes de la consulta");
-  const { usuario, apellido, email, password } = req.body;
+  const { usuario, apellido, email, password, tipoPerfil,region, comuna } = req.body;
   const fecha_creacion = new Date();
-  console.log(req.body);
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  console.log(req.body);
   console.log(hashedPassword);
   console.log(fecha_creacion);
-  const query = 'INSERT INTO usuarios (nombres, apellido, email, password, fecha_creacion) VALUES (?, ?, ?, ?, ?)';
-  conexion.query(query, [usuario, apellido, email, hashedPassword, fecha_creacion], (error, result) => {
+
+  const query = 'INSERT INTO usuarios (nombres, apellido, email, tipo_perfil, password, fecha_creacion,region,comuna) VALUES (?, ?, ?, ?, ?,?,?,?)';
+  conexion.query(query, [usuario, apellido, email, tipoPerfil ,hashedPassword, fecha_creacion,region,comuna], (error, result) => {
     if (error) {
       console.error(error);
       return res.status(500).json({ error: 'Error al registrar el usuario' });
