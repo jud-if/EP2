@@ -60,7 +60,12 @@ const InicioSesion: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding" fullscreen>
-        <div className="formularioSesion">
+
+      <div className="formularioSesion">
+    <div className="formulario-container">
+      <IonTitle className="ion-text-center">
+        Inicie sesión completando los campos
+      </IonTitle>
         <IonInput
             name="email"
             label="Correo electrónico"
@@ -99,6 +104,7 @@ const InicioSesion: React.FC = () => {
               Ingresar
             </IonButton>
           </div>
+        </div>
         </div>
       </IonContent>
     </IonPage>
