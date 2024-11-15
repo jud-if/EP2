@@ -28,28 +28,17 @@ const InicioSesion: React.FC = () => {
     if(!userData.email || !userData.password){
       setError('Porfavor Completar todos loscampos');
     }
-    else if(!userData.email){
-      setError('Ingrese correo electronico');
-    }
-    else if(!userData.password)
-    {
-      setError('Ingrese contraseña porfavor');
-    }
     else{
       try {
         // Realiza la solicitud POST para autenticar y obtener el token JWT
-        const response = await api.post('/auth/login', {
+          const response = await api.post('/auth/login', {
           email: userData.email,
           password: userData.password,
         });
-  
-        const { token } = response.data;
-  
-        // Guarda el token en localStorage
-        localStorage.setItem('authToken', token);
-  
+
         // Redirige al usuario a la página principal en caso de éxito
         history.push('/app/home');
+        
       } catch (error) {
         console.error('Error en el inicio de sesión:', error);
         alert('Credenciales incorrectas');

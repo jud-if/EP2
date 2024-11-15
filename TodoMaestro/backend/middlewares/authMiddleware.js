@@ -5,10 +5,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.cookies?.authToken; // Verifica si existe req.cookies
 
+  // Si no hay token, permitir acceso a rutas no protegidas
   if (!token) {
-    return res.status(401).json({ error: 'Acceso denegado. Token no proporcionado.' });
+    req.user = null; // Opción para identificar usuarios no autenticados
+    return next();
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {

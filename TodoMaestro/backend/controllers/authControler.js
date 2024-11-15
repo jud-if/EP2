@@ -6,6 +6,15 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+exports.checkAuthStatus = (req, res) => {
+  if (req.user) {
+    // `req.user` debería estar configurado por el middleware `authMiddleware` si el token es válido
+    res.json({ isAuthenticated: true, userId: req.user.id });
+  } else {
+    res.status(401).json({ isAuthenticated: false, message: 'No autenticado' });
+  }
+};
+
 exports.register = async (req, res) => {
 
   console.log("aqui llegamos antes de la consulta");
@@ -46,6 +55,14 @@ exports.login = (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id_usuario }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    res.cookie('authToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // solo en producción
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 1000 // 1 hora
+    });
+
     res.json({ message: 'Inicio de sesión exitoso', token });
   });
 };
