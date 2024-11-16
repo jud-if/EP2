@@ -10,7 +10,26 @@ exports.getAllAnuncios = (req, res) => {
     res.json(results);
   });
 };
-
+// Obtener un anuncio por su ID
+exports.getAnuncioById = (req, res) => {
+    const { id } = req.params; // Obtener el ID desde los parámetros de la ruta
+  
+    const query = 'SELECT * FROM anuncios WHERE id = ?';
+    
+    conexion.query(query, [id], (error, results) => {
+      if (error) {
+        console.error('Error al ejecutar la consulta:', error);
+        return res.status(500).json({ error: 'Error al obtener el anuncio' });
+      }
+      
+      if (results.length === 0) {
+        return res.status(404).json({ message: 'Anuncio no encontrado' });
+      }
+      
+      res.status(200).json(results[0]);
+    });
+  };
+  
 // Crear un nuevo anuncio
 exports.createAnuncio = (req, res) => {
   const { tipo_anuncio, titulo, descripcion, region, comuna, salario, id_usuario } = req.body;
