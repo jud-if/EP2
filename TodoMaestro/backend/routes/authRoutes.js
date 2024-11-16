@@ -11,6 +11,18 @@ router.post('/register', authController.register);
 // Ruta para iniciar sesión
 router.post('/login', authController.login);
 
+// Ruta para cerrar sesion
+router.post('/logout', (req, res) => {
+    res.clearCookie('authToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+    res.json({ message: 'Sesión cerrada correctamente' });
+  });
+  
+
+
 // Ruta para verificar el estado de autenticación
 router.get('/status', authMiddleware, authController.checkAuthStatus);
 

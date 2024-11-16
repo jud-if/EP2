@@ -3,8 +3,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
+const anunciosRoutes = require('./routes/anunciosRoutes');
 const cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -37,10 +39,9 @@ app.get('/auth/status', (req, res) => {
 
 app.use('/auth', authRoutes);
 
-// Ruta protegida de ejemplo
-app.get('/protected', authMiddleware, (req, res) => {
-  res.json({ message: 'Acceso permitido' });
-});
+// Rutas protegidas
+app.use('/anuncios', authMiddleware, anunciosRoutes);
+
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
