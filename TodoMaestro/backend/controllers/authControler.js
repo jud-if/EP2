@@ -66,3 +66,13 @@ exports.login = (req, res) => {
     res.json({ message: 'Inicio de sesión exitoso', token });
   });
 };
+
+exports.logout = (req, res) => {
+  res.clearCookie('authToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // solo en producción
+    sameSite: 'strict',
+  });
+
+  res.status(200).json({ message: 'Sesión cerrada exitosamente' });
+};

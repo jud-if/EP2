@@ -25,10 +25,10 @@ const Home: React.FC = () => {
               <img src={images.imgTrabajo1} alt="Tuberias" style={{width: '150px'}} />
             </IonCol>
             <IonCol className="ion-justify-content-center ion-margin-top">
-              <IonButton routerLink="/iniciosesion" routerDirection='forward' expand="block">
+              <IonButton routerLink="/iniciosesion" routerDirection='forward' expand="block" className='btnInicioSesion' strong>
                 Tengo cuenta
               </IonButton>
-              <IonButton routerLink="/registrarse" routerDirection='forward' expand="block">
+              <IonButton routerLink="/registrarse" routerDirection='forward' expand="block" className='btnRegistro' strong>
                 Soy nuevo
               </IonButton>
             </IonCol>

@@ -1,14 +1,30 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonButton, IonTitle, IonToolbar, IonIcon, IonItem, IonList, IonLabel, IonMenuToggle} from '@ionic/react';
-import {bookmarks, create, home, logOut, person, personCircle} from 'ionicons/icons';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonButton, IonTitle, IonToolbar, IonIcon, IonItem, IonList, IonLabel, IonMenuToggle } from '@ionic/react';
+import { bookmarks, create, home, logOut, person, personCircle } from 'ionicons/icons';
+//@ts-ignore
+import api from '../services/api';
+interface AppPage {
+  url?: string;
+  iosIcon: string;
+  mdIcon: string;
+  title: string;
+  action?: () => void;
+}
 
-  interface AppPage {
-    url: string;
-    iosIcon: string;
-    mdIcon: string;
-    title: string;
-  }
+
+const Drawer: React.FC = () => {
+
+  const history = useHistory();
+  const location = useLocation();
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');  // Endpoint para cerrar sesión
+      history.push('/bienvenida'); // Redirige a la página de bienvenida 
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   const appPages: AppPage[] = [
     {
@@ -37,45 +53,51 @@ import {bookmarks, create, home, logOut, person, personCircle} from 'ionicons/ic
     },
     {
       title: 'Cerrar sesion',
-      url: '/app/logOut',
       iosIcon: logOut,
-      mdIcon: logOut
+      mdIcon: logOut,
+      action: handleLogout
     }
   ];
 
-const Drawer: React.FC = () => {
-  const location = useLocation();
   return (
-    <>
-      <IonMenu contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-              <IonIcon slot="start" icon={personCircle} size="large" className='ion-padding'></IonIcon>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <IonList>
-          {appPages.map((appPage, index) => {
+    <> 
+    <IonMenu contentId="main-content"> 
+      <IonHeader> 
+        <IonToolbar> 
+          <IonIcon slot="start" icon={personCircle} size="large" className='ion-padding'>
+          </IonIcon> 
+          <IonLabel>Juan Perez</IonLabel> 
+        </IonToolbar> 
+      </IonHeader> 
+      <IonContent className="ion-padding"> 
+        <IonList> {appPages.map((appPage, index) => { 
+          if (appPage.action) { 
             return (
-                <IonMenuToggle key={index}>
-                  <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection='none' lines='none' detail={false}>
-                    <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                    <IonLabel>{appPage.title}</IonLabel>
-                  </IonItem>
-                </IonMenuToggle>
-              );
-            })}
-          </IonList>
-        </IonContent>
-      </IonMenu>
-      <IonHeader id="main-content" className='ion-no-border'>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
-            </IonButtons>
-            
-          </IonToolbar>
-      </IonHeader>
+          <IonMenuToggle key={index}> 
+            <IonItem button onClick={appPage.action} lines='none'> 
+              <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} /> 
+              <IonLabel>{appPage.title}</IonLabel> 
+            </IonItem> 
+          </IonMenuToggle>
+          ); 
+        } return (
+          <IonMenuToggle key={index}> 
+            <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection='none' lines='none' detail={false}> 
+              <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} /> 
+              <IonLabel>{appPage.title}</IonLabel> 
+            </IonItem> 
+          </IonMenuToggle>); 
+          })} 
+        </IonList> 
+      </IonContent> 
+    </IonMenu> 
+    <IonHeader id="main-content" className='ion-no-border'> 
+      <IonToolbar> 
+        <IonButtons slot="start"> 
+          <IonMenuButton></IonMenuButton> 
+        </IonButtons> 
+      </IonToolbar> 
+    </IonHeader> 
     </>
   );
 };
