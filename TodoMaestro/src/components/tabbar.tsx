@@ -6,7 +6,17 @@ interface TabbarProps {
   firstOption: string;
   secondOption: string;
   cardsData: {
-    [key: string]: { title: string; subtitle?: string; content: string; actions: { label: string; icon?: string }[] }[];
+    [key: string]: { 
+      id_ad: number;
+      subtitle?: string; 
+      title: string;
+      content: string;
+      region: string;
+      comuna: string;
+      salario: number;
+      fecha_creacion: string;
+      actions: { label: string; icon?: string }[]
+       }[];
   };
 }
 
@@ -23,7 +33,16 @@ const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData })
       return <p>No hay elementos disponibles.</p>;
     }
     return currentCards.map((card, index) => (
-      <CardItem key={index} {...card} />
+      <CardItem
+      key={index}
+      title={card.title}
+      content={card.content}
+      region={card.region}
+      comuna={card.comuna}
+      salario={card.salario}
+      fecha_creacion={card.fecha_creacion}
+      actions={card.actions}
+    />
     ));
   };
 
