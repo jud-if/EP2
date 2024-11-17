@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonList, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonInputPasswordToggle, IonItem, IonList, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import './InicioSesion.css';
-import { arrowBack } from 'ionicons/icons';
+import { arrowBack, colorFill, lockClosed, person } from 'ionicons/icons';
 //@ts-ignore
 import api from '../services/api';
 
@@ -62,50 +62,47 @@ const InicioSesion: React.FC = () => {
       <IonContent className="ion-padding" fullscreen>
 
       <div className="formularioSesion">
-    <div className="formulario-container">
-      <IonTitle className="ion-text-center">
-        Inicie sesión completando los campos
-      </IonTitle>
-        <IonInput
-            name="email"
-            label="Correo electrónico"
-            labelPlacement="floating"
-            fill="outline"
-            type="email"
-            placeholder="Ingrese correo"
-            value={userData.email}
-            onIonChange={handleChange}
-          ></IonInput>
-
-          <br />
-
-          <IonInput
-            name="password"
-            label="Contraseña"
-            labelPlacement="floating"
-            fill="outline"
-            type="password"
-            placeholder="Ingrese contraseña"
-            value={userData.password}
-            onIonChange={handleChange}
-          ></IonInput>
-          {error && (
-            <IonText color="danger">
-              <p>{error}</p>
-            </IonText>
-          )}
-          <br />
-          <IonRouterLink color="medium" href="#">
-            ¿Olvidó su contraseña?
-          </IonRouterLink>
-
-          <div className="ion-padding-top">
-            <IonButton expand="block" onClick={handleLogin}>
-              Ingresar
-            </IonButton>
+        <div className="formulario-container">
+          <div className='tituloInicio'>
+            <h1>Iniciar Sesión</h1>
           </div>
+          <IonItem>
+            <IonInput
+                name="email"
+                type="email"
+                class="custom"
+                placeholder="Ingrese su correo"
+                value={userData.email}
+                onIonChange={handleChange}
+            >
+              <IonIcon slot="start" icon={person} aria-hidden="true"></IonIcon>
+            </IonInput>
+          </IonItem>
+          <IonItem>
+            <IonInput 
+              name="password"
+              class="custom"
+              type="password"
+              placeholder="Ingrese su contraseña"
+              value={userData.password}
+              onIonChange={handleChange}
+            >
+              <IonIcon slot="start" icon={lockClosed} aria-hidden="true"></IonIcon>
+            </IonInput>
+          </IonItem>
+            {error && (
+              <IonText color="danger">
+                <p>{error}</p>
+              </IonText>
+            )}
+              <IonRouterLink color="medium" href="#">
+                <p style={{color:"white"}}>¿Olvidó su contraseña?</p>
+              </IonRouterLink>
+              <IonButton expand="block" onClick={handleLogin} className='btnIngresar'>
+                Ingresar
+              </IonButton>
         </div>
-        </div>
+      </div>
       </IonContent>
     </IonPage>
   );

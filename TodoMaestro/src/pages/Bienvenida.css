@@ -26,3 +26,12 @@ ion-button .btnInicioSesion .btnRegistro{
 .btnRegistro{
     --background: #4275F0;
 }
+
+.titulo{
+    --background: #259cb1fd;
+    --color: #020202;
+  
+    --min-height: 77px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+}

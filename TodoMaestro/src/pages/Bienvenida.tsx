@@ -7,12 +7,12 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar className="titulo">
           <IonTitle>TodoMaestro</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-text-center ion-justify-content-center" >
+      <IonContent className="ion-text-center ion-justify-content-center">
         <IonGrid style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }} >
           <IonRow>
             <IonCol size="12" sizeLg="6">
