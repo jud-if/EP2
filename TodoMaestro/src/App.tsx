@@ -8,6 +8,7 @@ import InicioSesion from './pages/IniciarSesion';
 import MisPublicaciones from './pages/MisPublicaciones';
 import MiPerfil from './pages/MiPerfil';
 import Guardados from './pages/Guardados';
+import Publicar from './pages/Publicar';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -63,6 +64,7 @@ const App: React.FC = () => (
               <PrivateRoute path="/app/mispublicaciones" component={MisPublicaciones} exact />
               <PrivateRoute path="/app/miperfil" component={MiPerfil} exact />
               <PrivateRoute path="/app/guardados" component={Guardados} exact />
+              <PrivateRoute path="/app/publicar" component={Publicar} exact />
           </IonRouterOutlet>
         </IonSplitPane>
       </Route>
