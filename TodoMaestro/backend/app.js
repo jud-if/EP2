@@ -40,9 +40,32 @@ app.get('/auth/status', (req, res) => {
 app.use('/auth', authRoutes);
 
 // Rutas protegidas
-app.use('/anuncios', authMiddleware, anunciosRoutes);
+app.use('/api', authMiddleware);
+app.use('/api', anunciosRoutes);
 
+function printRoutes(stack, prefix = '') {
+  stack.forEach(function(r) {
+      if (r.route && r.route.path) {
+          Object.keys(r.route.methods).forEach(method => {
+              console.log(`${method.toUpperCase()} ${prefix}${r.route.path}`);
+          });
+      } else if (r.name === 'router') {
+          // Esta parte imprime las subrutas
+          r.handle.stack.forEach(function(sr) {
+              if (sr.route) {
+                  Object.keys(sr.route.methods).forEach(method => {
+                      console.log(`${method.toUpperCase()} ${prefix}${sr.route.path}`);
+                  });
+              }
+          });
+      }
+  });
+}
 
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
+
+  console.log('\nRutas registradas:');
+  console.log('\nRutas registradas:');
+    printRoutes(app._router.stack);
 });

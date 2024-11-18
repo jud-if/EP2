@@ -4,10 +4,11 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-router.post('/', authMiddleware, anuncioController.createAnuncio);
-router.get('/',authMiddleware ,anuncioController.getAllAnuncios);
-router.get('/:id_ad', authMiddleware, anuncioController.getAnuncioById);
-router.put('/:id_ad', authMiddleware, anuncioController.updateAnuncio);
-router.delete('/:id_ad', authMiddleware, anuncioController.deleteAnuncio);
+router.get('/usuarios/:idUsuario', anuncioController.getAnunciosByIdUsuario);
 
+// Rutas generales de anuncios
+router.get('/anuncios', anuncioController.getAllAnuncios);
+router.post('/anuncios', anuncioController.createAnuncio);
+router.put('/anuncios/:id_ad', anuncioController.updateAnuncio);
+router.delete('/anuncios/:id_ad', anuncioController.deleteAnuncio);
 module.exports = router;
