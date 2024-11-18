@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from 'react';
-import { IonContent, IonLabel, IonPage, IonSegment, IonSegmentButton, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonSearchbar, IonCardSubtitle, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonLabel, IonPage, IonCardSubtitle, IonButton, IonIcon } from '@ionic/react';
 import { trash } from 'ionicons/icons';
 import Tabbar from '../components/tabbar';
 import Buscador from '../components/buscador';
