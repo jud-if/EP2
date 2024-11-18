@@ -1,16 +1,60 @@
+:root{
+    --ion-background-color: #F0FAFA;
+}
+
 .formularioSesion{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 1rem;
 }
 
 /* Puedes añadir esta clase adicional para el contenedor del formulario */
 .formulario-container {
     display: flex;
+    margin:auto;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    background-color: #259cb1fd;
+    padding: 50px;
+    border-radius: 30px;
+}
+
+.tituloInicio h1{
+    font-family: "Inter", sans-serif;
+    margin-bottom: 30px;
+    font-size: 50px;
+    font-weight: 350;
+    line-height: 120%;
+    text-align: center;
+    color: #f5f5f5;
+}
+
+.formularioSesion ion-icon{
+    color: #5B7ED0;
+    font-size: 25px;
+}
+
+
+.formularioSesion ion-item{
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.formularioSesion ion-input.custom {
+    --color: #050505;
+    --placeholder-color: #8DABF3;
+    --placeholder-opacity: 0.8;
+}
+
+.btnIngresar{
+    color:rgb(255, 255, 255);
+    font-weight: 600;
+    --background: #5ed1d1;
+    --box-shadow:#1e4242;
+    --padding-bottom:15px;
+    --padding-start:15px;
+    --padding-top:15px;
+    --padding-end:15px;
+    --border-radius:12px;
 }

@@ -7,14 +7,14 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar className="titulo">
           <IonTitle>TodoMaestro</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-text-center ion-justify-content-center" >
+      <IonContent className="ion-text-center">
         <IonGrid style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }} >
-          <IonRow>
+          <IonRow className='ion-align-items-center'>
             <IonCol size="12" sizeLg="6">
               <img src={images.imgTrabajo2} alt="Herramientas" style={{width: '100px'}}/>
               <IonText>
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
               </IonText>
               <img src={images.imgTrabajo1} alt="Tuberias" style={{width: '150px'}} />
             </IonCol>
-            <IonCol className="ion-justify-content-center ion-margin-top">
+            <IonCol className="ion-margin-top ion-margin-start">
               <IonButton routerLink="/iniciosesion" routerDirection='forward' expand="block" className='btnInicioSesion' strong>
                 Tengo cuenta
               </IonButton>

@@ -1,0 +1,7 @@
+.btnPublicar{
+    font-weight: 800;
+    --padding-top: 15px;
+    --padding-bottom: 18px;
+    --color: #0C343C;
+    --background: #98D2DD;
+}
