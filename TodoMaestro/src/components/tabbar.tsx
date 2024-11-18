@@ -9,39 +9,42 @@ interface TabbarProps {
     [key: string]: { 
       id_ad: number;
       subtitle?: string; 
-      title: string;
-      content: string;
+      titulo: string;
+      descripcion: string;
       region: string;
       comuna: string;
       salario: number;
       fecha_creacion: string;
-      actions: { label: string; icon?: string }[]
-       }[];
-  };
+    
+       }[]};    
+  context: 'home' | 'misPublicaciones';
 }
 
-const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData }) => {
+const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData ,context}) => {
+  
   const [selectedSegment, setSelectedSegment] = useState<string>(firstOption.toLowerCase());
-
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
   };
+  console.log(selectedSegment.toLowerCase())
 
   const renderCards = () => {
-    const currentCards = cardsData[selectedSegment];
+    const currentCards = cardsData[selectedSegment.toLowerCase()];
+
     if (!currentCards || currentCards.length === 0) {
       return <p>No hay elementos disponibles.</p>;
     }
     return currentCards.map((card, index) => (
       <CardItem
       key={index}
-      title={card.title}
-      content={card.content}
+      title={card.titulo}
+      content={card.descripcion}
       region={card.region}
       comuna={card.comuna}
       salario={card.salario}
       fecha_creacion={card.fecha_creacion}
-      actions={card.actions}
+      context={context}
+     
     />
     ));
   };

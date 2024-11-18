@@ -1,6 +1,9 @@
+
+import { bookmark, bookmarkOutline, reader,trash } from 'ionicons/icons';
+
+// CardItem.tsx
 import React, { useState } from 'react';
 import LeerMas from './leerMas';
-
 import {
   IonCard,
   IonCardHeader,
@@ -9,38 +12,16 @@ import {
   IonCardContent,
   IonButton,
   IonIcon,
-  IonModal,
-  IonToolbar,
-  IonButtons,
-  IonHeader,
-  IonTitle,
-  IonContent as IonModalContent,
 } from '@ionic/react';
-import { bookmark, bookmarkOutline } from 'ionicons/icons';
+import { createEnhancedCardData } from './cardDataEnhancer';
 
-interface CardItemProps {
-  title: string;
-  subtitle?: string;
-  content: string;
-  region: string;
-  comuna: string;
-  salario: number;
-  fecha_creacion: string;
-  actions?: { label: string; icon?: string; onClick?: () => void }[];
+interface CardItemProps extends JobData {
+  context: 'home' | 'misPublicaciones';
 }
 
-const CardItem: React.FC<CardItemProps> = ({
-  title,
-  subtitle,
-  content,
-  region,
-  comuna,
-  salario,
-  fecha_creacion,
-  actions,
-}) => {
+const CardItem: React.FC<CardItemProps> = (props) => {
   const [bookmarked, setBookmarked] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado del modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleBookmark = () => {
     setBookmarked(!bookmarked);
@@ -54,51 +35,75 @@ const CardItem: React.FC<CardItemProps> = ({
     setIsModalOpen(false);
   };
 
+  // Crear los datos mejorados usando el enhancer
+  const enhancedData = createEnhancedCardData(
+    props,
+    props.context=== 'home' ? [
+      {
+        label: 'Leer más',
+        icon: reader,
+        onClick: openModal,
+      },
+      {
+        label: '',
+        icon: bookmarked ? bookmark : bookmarkOutline,
+        onClick: toggleBookmark,
+      },
+    ] : [
+      {
+        label: 'Eliminar',
+        icon: trash,
+        onClick: () => alert('Eliminar anuncio'),
+      },
+      {
+        label: 'Editar',
+        onClick: () => alert('Editar anuncio'),
+      },
+    ]
+    
+  );
+
   return (
     <>
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>{title}</IonCardTitle>
-          {subtitle && <IonCardSubtitle>{subtitle}</IonCardSubtitle>}
+          <IonCardTitle>{enhancedData.title}</IonCardTitle>
+          {enhancedData.subtitle && (
+            <IonCardSubtitle>{enhancedData.subtitle}</IonCardSubtitle>
+          )}
         </IonCardHeader>
-        <IonCardContent>{content}</IonCardContent>
-        {actions?.map((action, index) => (
+        <IonCardContent>{enhancedData.content}</IonCardContent>
+        {enhancedData.actions.map((action, index) => (
           <IonButton
             key={index}
             fill="clear"
-            onClick={
-              action.label === '' && action.icon
-                ? toggleBookmark
-                : action.label === 'Leer más'
-                ? openModal
-                : action.onClick
-            }
+            onClick={action.onClick}
           >
             {action.icon && (
               <IonIcon
-                icon={
-                  action.label === '' && action.icon
-                    ? bookmarked
-                      ? bookmark
-                      : bookmarkOutline
-                    : action.icon
-                }
+                icon={action.icon}
                 slot="start"
               />
             )}
             {action.label}
           </IonButton>
         ))}
-      </IonCard>
+    
 
-      <LeerMas isOpen={isModalOpen} onClose={closeModal}
-        title={title}
-        content={content}
-        region={region}
-        comuna={comuna}
-        salario={salario}
-        fecha_creacion={fecha_creacion}
+      {/* Modal de Leer más */}
+      {props.context === 'home' && (
+        <LeerMas
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          title={enhancedData.title}
+          content={enhancedData.content}
+          region={enhancedData.region}
+          comuna={enhancedData.comuna}
+          salario={enhancedData.salario}
+          fecha_creacion={enhancedData.fecha_creacion}
         />
+      )}
+    </IonCard>
     </>
   );
 };

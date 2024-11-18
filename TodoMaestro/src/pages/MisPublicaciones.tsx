@@ -1,27 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { IonContent, IonLabel, IonPage, IonSegment, IonSegmentButton, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonSearchbar, IonCardSubtitle, IonButton, IonIcon } from '@ionic/react';
 import { trash } from 'ionicons/icons';
 import Tabbar from '../components/tabbar';
 import Buscador from '../components/buscador';
 import BtnPublicar from '../components/btnOpciones';
 
-const MisPublicaciones: React.FC = () => {
-  const misPublicacionesCardsData = {
-    'mis ofertas': [
-      { title: 'Busco a Alguien', subtitle: 'Valparaíso', content: 'Descripción de la oferta.', actions: [{ label: 'Eliminar', icon: trash }, { label: 'Editar' }] },
-    ],
-    'mis servicios': [
-      { title: 'Trabajos de Electricista', subtitle: 'Villa Alemana', content: 'Descripción del servicio.', actions: [{ label: 'Eliminar', icon: trash }, { label: 'Editar' }] },
-    ],
-  };
-  
 
+
+const MisPublicaciones: React.FC = () => {
+  const [misPublicacionesCardsData, setHomeCardsData] = useState<{ ofertas: any[]; servicios: any[] }>({
+        ofertas: [],
+        servicios: [],
+      });
+      const [error, setError] = useState<string>('');
+      const [loading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        const fetchAnuncios = async () => {
+          try {
+            // Primero, verificamos el estado de autenticación
+            const authResponse = await fetch('http://localhost:3000/auth/status', {
+              credentials: 'include' // Importante para enviar cookies
+            });
+            const authData = await authResponse.json();
+    
+            if (!authData.isAuthenticated) {
+              setError('Usuario no autenticado');
+              setLoading(false);
+              return;
+            }
+    
+            // Usamos el ID del usuario obtenido
+            const userId = authData.userId;
+            
+            // Hacemos la petición con el ID del usuario
+            const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`, {
+              credentials: 'include' // Importante para enviar cookies
+            });
+            
+    
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            
+            // Separamos los anuncios por tipo
+            const servicios = data.filter((item: any) => item.tipo_anuncio === 0);
+            const ofertas = data.filter((item: any) => item.tipo_anuncio === 1);
+
+            setHomeCardsData({ ofertas, servicios });
+          } catch (error) {
+            console.error('Error al cargar los anuncios:', error);
+            setError('Error al cargar los anuncios');
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchAnuncios();
+  }, []);
   return (
     <IonPage>
 
       <IonContent fullscreen>
         <Buscador/>
-        <Tabbar firstOption="Mis ofertas" secondOption="Mis servicios" cardsData={misPublicacionesCardsData} />
+        <Tabbar firstOption="Servicios" secondOption="Ofertas" cardsData={misPublicacionesCardsData} context='misPublicaciones'/>
       </IonContent>
 
       <BtnPublicar/>
