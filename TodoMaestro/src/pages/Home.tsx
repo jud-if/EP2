@@ -24,8 +24,9 @@ const Home: React.FC = () => {
           const data = await response.json();
           
   
-        const contratar = data.filter((item: any) => item.tipo_anuncio === 0)
-         const trabajar = data.filter((item:any) => item.tipo_anuncio === 1);
+        const contratar = data.filter((item: any) => item.tipo_anuncio === "0")
+         const trabajar = data.filter((item:any) => item.tipo_anuncio === "1");
+         console.log(contratar,trabajar)
           
     
           setHomeCardsData({ contratar, trabajar });
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <Buscador />
-        <Tabbar firstOption="Contratar" secondOption="Trabajar" cardsData={homeCardsData} context='home' />
+        <Tabbar firstOption="Trabajar" secondOption="Contratar" cardsData={homeCardsData} context='home' />
       </IonContent>
       <BtnPublicar />
     </IonPage>
