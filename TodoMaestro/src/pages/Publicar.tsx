@@ -41,7 +41,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
     descripcion: '',
     region: '',
     comuna: '',
-    salario: ''
+    salario: 0
   });
 
   const [error, setError] = useState('');
@@ -64,9 +64,8 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
         const payload = {
           ...userData,
           id_usuario: userId,
-          salario: userData.salario ? parseInt(userData.salario, 10) : null,
         };
-        const response = await api.post('/anuncios', payload);
+        const response = await api.post('/api/anuncios', payload);
         console.log(response.data);
   
         setIsPublished(true); // Cambia el estado al publicar
@@ -106,12 +105,12 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
         <IonToolbar>
           <IonTitle>Publicar Anuncio</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleClose}>Cerrar</IonButton>
+            <IonButton className='botonCerrar' onClick={handleClose}>Cerrar</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonList>
+        <IonList className='formularioPublicar'>
           <IonInput
             label="Título*"
             name='titulo'
@@ -121,6 +120,8 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             maxlength={50}
             value={userData.titulo}
             onIonChange={handleChange}
+            class='custom'
+            required
           ></IonInput>
           <IonTextarea
             label='Descripción'
@@ -132,17 +133,20 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             maxlength={700}
             value={userData.descripcion}
             onIonChange={handleChange}
+            class='custom'
           >  
           </IonTextarea>
 
           <IonItem>
-            <IonLabel>Región<IonText color="danger">(*)</IonText></IonLabel>
             <IonSelect 
               name='region'
               placeholder="Seleccione su región" 
               value={userData.region}
               onIonChange={handleChange}
             >
+              <div slot="label">
+              Región<IonText color="danger">(*)</IonText>
+              </div>
               <IonSelectOption value="Región Metropolitana">Región Metropolitana</IonSelectOption>
               <IonSelectOption value="Valparaíso">Valparaíso</IonSelectOption>
               <IonSelectOption value="Biobío">Biobío</IonSelectOption>
@@ -150,28 +154,32 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
           </IonItem>
 
           <IonItem>
-            <IonLabel>Comuna<IonText color="danger">(*)</IonText></IonLabel>
             <IonSelect 
               name='comuna'
               placeholder="Seleccione su comuna" 
               value={userData.comuna}
               onIonChange={handleChange}
             >
+              <div slot="label">
+              Comuna<IonText color="danger">(*)</IonText>
+              </div>
               <IonSelectOption value="Comuna 1">Comuna 1</IonSelectOption>
               <IonSelectOption value="Comuna 2">Comuna 2</IonSelectOption>
             </IonSelect>
           </IonItem>
 
           <IonItem>
-            <IonLabel>Tipo de anuncio<IonText color="danger">(*)</IonText></IonLabel>
             <IonSelect 
               name='tipo_anuncio'
               placeholder="Seleccione su preferencia" 
               value={userData.tipo_anuncio}
               onIonChange={handleChange}
             >
-              <IonSelectOption value="Trabajar"> Busco trabajo</IonSelectOption>
-              <IonSelectOption value="Contratar"> Busco contratar</IonSelectOption>
+              <div slot="label">
+              Tipo de Anuncio<IonText color="danger">(*)</IonText>
+              </div>
+              <IonSelectOption value="1"> Busco trabajo</IonSelectOption>
+              <IonSelectOption value="0"> Busco contratar</IonSelectOption>
             </IonSelect>
           </IonItem>
 
@@ -179,7 +187,8 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             <IonInput 
               name='salario'
               label="Salario"
-              type='number'
+              type="number"
+              class='custom'
               value={userData.salario}
               onIonChange={handleChange}
               labelPlacement="stacked"
