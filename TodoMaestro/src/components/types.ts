@@ -14,6 +14,9 @@ interface JobData {
     icon?: string;
     onClick?: () => void;
   }
+
+
+  
   
   interface EnhancedJobData extends JobData {
     actions: Action[];
