@@ -5,7 +5,7 @@ import Tabbar from '../components/tabbar';
 import Buscador from '../components/buscador';
 import BtnPublicar from '../components/btnOpciones';
 
-
+import { useAuth } from '../contexts/authContext';
 
 const MisPublicaciones: React.FC = () => {
   const [misPublicacionesCardsData, setHomeCardsData] = useState<{ ofertas: any[]; servicios: any[] }>({
@@ -15,24 +15,14 @@ const MisPublicaciones: React.FC = () => {
       const [error, setError] = useState<string>('');
       const [loading, setLoading] = useState(true);
     
+      const { userId } = useAuth();
       useEffect(() => {
         const fetchAnuncios = async () => {
           try {
-            // Primero, verificamos el estado de autenticación
-            const authResponse = await fetch('http://localhost:3000/auth/status', {
-              credentials: 'include' // Importante para enviar cookies
-            });
-            const authData = await authResponse.json();
-    
-            if (!authData.isAuthenticated) {
-              setError('Usuario no autenticado');
-              setLoading(false);
-              return;
-            }
+            
     
             // Usamos el ID del usuario obtenido
-            const userId = authData.userId;
-            
+
             // Hacemos la petición con el ID del usuario
             const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`, {
               credentials: 'include' // Importante para enviar cookies
@@ -46,8 +36,8 @@ const MisPublicaciones: React.FC = () => {
             const data = await response.json();
             
             // Separamos los anuncios por tipo
-            const servicios = data.filter((item: any) => item.tipo_anuncio === 0);
-            const ofertas = data.filter((item: any) => item.tipo_anuncio === 1);
+            const servicios = data.filter((item: any) => item.tipo_anuncio === "1");
+            const ofertas = data.filter((item: any) => item.tipo_anuncio === "0");
 
             setHomeCardsData({ ofertas, servicios });
           } catch (error) {
