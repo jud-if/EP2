@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const anunciosRoutes = require('./routes/anunciosRoutes');
@@ -11,6 +13,12 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // Límite de 100 solicitudes por IP
+  message: "Demasiadas solicitudes desde esta IP, intente más tarde.",
+});
+
 const corsOptions = {
   origin: 'http://localhost:8100',  // Origen de tu aplicación frontend
   methods: 'GET,POST,PUT,DELETE',
@@ -19,6 +27,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(limiter);
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 

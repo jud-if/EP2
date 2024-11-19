@@ -18,9 +18,9 @@ Debido a que en la ultima entrega se nos aviso que las paginas no se consideraba
 
 * Publicar Anuncio (el como se implementa es a traves de un boton flotante en home)
 * Borrar Anuncio (al entrar en mis publicaciones, Recordar recargar la pagina poque no pudimos solucionar el que no cargara inmediatamente, luego vuelva al home desde el url, al pasar po mis  publicaciones se arruina todo en general)
-* Ver mis publicaciones
+* Editar Anuncio  (al entrar en mis publicaciones)
 * Ver Perfil
-* Mostrar Anuncios
+* Barra de busqueda 
 * Filtrar (La idea es implementar etiquetas)  el como se implementa es a traves de un boton flotante en home
 * Editar Perfil  (opcion que aparece en mi perfil) 
 
