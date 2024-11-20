@@ -9,6 +9,7 @@ import MisPublicaciones from './pages/MisPublicaciones';
 import MiPerfil from './pages/MiPerfil';
 import Guardados from './pages/Guardados';
 import Publicar from './pages/Publicar';
+import EditarPerfil from './pages/EditarPerfil';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -65,6 +66,7 @@ const App: React.FC = () => (
             <PrivateRoute path="/app/miperfil" component={MiPerfil}  />
             <PrivateRoute path="/app/guardados" component={Guardados}  />
             <PrivateRoute path="/app/publicar" component={Publicar}  />
+            <PrivateRoute path="/app/editarperfil" component={EditarPerfil}  />
             <Redirect exact from="/app/" to="/app/home" />
           </IonContent>
         </IonRouterOutlet>

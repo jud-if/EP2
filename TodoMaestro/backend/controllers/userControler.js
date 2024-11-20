@@ -18,10 +18,10 @@ exports.getUserProfile = (req, res) => {
 
 exports.updateUserById = (req, res) => {
     const userId = req.params.id;
-    const { usuario, apellido, email, tipoPerfil, region, comuna } = req.body;
+    const { nombres, apellido, email, tipo_perfil, region, comuna } = req.body;
 
     const query = 'UPDATE usuarios SET nombres = ?, apellido = ?, email = ?, tipo_perfil = ?, region = ?, comuna = ? WHERE id_usuario = ?';
-    conexion.query(query, [usuario, apellido, email, tipoPerfil, region, comuna, userId], (error, results) => {
+    conexion.query(query, [nombres, apellido, email, tipo_perfil, region, comuna, userId], (error, results) => {
         if (error) {
             console.error(error);
             return res.status(500).json({ error: 'Error al actualizar el usuario' });

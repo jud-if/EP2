@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/authContext';
 //@ts-ignore
 import api from '../services/api';
 import images from '../assets/assets';
+import { getUserData } from '../services/userService';
 
 interface UserData {
   nombres: string;
@@ -30,26 +31,9 @@ const Dataperfil: React.FC = ({ }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const getUserData = async () => {
-    console.log(userId);
-    console.log(userData.nombres);
-    setError('');
-    try {
-      const response = await api.get(`/api/usuarios/${userId}`);
-      console.log(response.data);
-
-      setUserData(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
-      setError('Error al cargar los datos del usuario');
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (userId) {
-      getUserData();
+      getUserData(userId, setUserData, setError, setLoading);
     }
   }, [userId]);
 
