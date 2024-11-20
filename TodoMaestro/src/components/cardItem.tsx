@@ -14,9 +14,12 @@ import {
   IonIcon,
 } from '@ionic/react';
 import { createEnhancedCardData } from './cardDataEnhancer';
+import Eliminar from '../pages/Eliminar';
 
 interface CardItemProps extends JobData {
   context: 'home' | 'misPublicaciones';
+  id_ad: number; // ID del anuncio
+  onRefresh?: () => void; // Callback para refrescar datos
 }
 
 const CardItem: React.FC<CardItemProps> = (props) => {
@@ -34,34 +37,40 @@ const CardItem: React.FC<CardItemProps> = (props) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  const actions = [
+    ...(props.context === 'home'
+      ? [
+          {
+            label: 'Leer más',
+            icon: reader,
+            onClick: () => setIsModalOpen(true),
+          },
+          {
+            label: '',
+            icon: bookmarked ? bookmark : bookmarkOutline,
+            onClick: toggleBookmark,
+          },
+        ]
+      : []),
+    ...(props.context === 'misPublicaciones'
+      ? [
+          {
+            label: 'Eliminar',
+            icon: trash,
+            onClick: () => setIsModalOpen(true), // Abre el modal
+          },
+          {
+            label: 'Editar',
+            onClick: () => alert('Editar anuncio'), // Lógica para editar
+          },
+        ]
+      : []),
+  ];
+  
   // Crear los datos mejorados usando el enhancer
   const enhancedData = createEnhancedCardData(
     props,
-    props.context=== 'home' ? [
-      {
-        label: 'Leer más',
-        icon: reader,
-        onClick: openModal,
-      },
-      {
-        label: '',
-        icon: bookmarked ? bookmark : bookmarkOutline,
-        onClick: toggleBookmark,
-      },
-    ] : [
-      {
-        label: 'Eliminar',
-        icon: trash,
-        onClick: () => alert('Eliminar anuncio'),
-      },
-      {
-        label: 'Editar',
-        onClick: () => alert('Editar anuncio'),
-      },
-    ]
-    
-  );
+    actions)
 
   return (
     <>
@@ -102,7 +111,17 @@ const CardItem: React.FC<CardItemProps> = (props) => {
           salario={enhancedData.salario}
           fecha_creacion={enhancedData.fecha_creacion}
         />
-      )}
+      )
+      }
+      {props.context === 'misPublicaciones' && (
+          <Eliminar
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            anuncioId={props.id_ad}
+            onEliminar={props.onRefresh ?? (() => {})} // Aseguramos que siempre sea una función válida
+          />
+        )}
+
     </IonCard>
     </>
   );

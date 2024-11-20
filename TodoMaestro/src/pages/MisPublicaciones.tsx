@@ -24,7 +24,7 @@ const MisPublicaciones: React.FC = () => {
             // Usamos el ID del usuario obtenido
 
             // Hacemos la petición con el ID del usuario
-            const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`, {
+            const response = await fetch(`http://localhost:3000/api/usuariosanuncios/${userId}`, {
               credentials: 'include' // Importante para enviar cookies
             });
             

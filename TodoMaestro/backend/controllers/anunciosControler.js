@@ -74,14 +74,20 @@ exports.updateAnuncio = (req, res) => {
 
 // Eliminar un anuncio
 exports.deleteAnuncio = (req, res) => {
-  const { id } = req.params;
-
+  const { id_ad } = req.params;  // Usar el nombre correcto del parámetro
+  console.log('ID recibido para eliminar:', id_ad);  // V
   const query = 'DELETE FROM anuncios WHERE id_ad = ?';
 
-  conexion.query(query, [id], (error) => {
+  conexion.query(query, [id_ad], (error, result) => {
     if (error) {
-      return res.status(500).json({ error: 'Error al eliminar anuncio' });
+      console.error('Error al eliminar anuncio:', error);
+      return res.status(500).json({ error: 'Error al eliminar el anuncio' });
     }
-    res.json({ message: 'Anuncio eliminado con éxito' });
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'El anuncio no existe o ya fue eliminado' });
+    }
+
+    res.json({ message: 'Anuncio eliminado con' });
   });
 };

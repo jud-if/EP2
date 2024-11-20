@@ -1,0 +1,25 @@
+.custom-delete-modal {
+    --width: 300px; /* Ancho reducido */
+    --height: 200px; /* Altura reducida */
+    --border-radius: 12px;
+    --background: #ffffff;
+    --ion-background-color: #ffffff; /* Fondo blanco */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .modal-content p {
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  
+  .modal-content ion-button {
+    margin-top: 8px;
+  }
+  

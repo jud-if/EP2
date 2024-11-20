@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IonContent, IonToolbar, IonLabel, IonSegment, IonSegmentButton, IonSearchbar } from '@ionic/react';
 import CardItem from './cardItem';
 
+
 interface TabbarProps {
   firstOption: string;
   secondOption: string;
@@ -34,9 +35,14 @@ const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData ,c
     if (!currentCards || currentCards.length === 0) {
       return <p>No hay elementos disponibles.</p>;
     }
+    const refreshData = () => {
+      // Lógica para actualizar los datos (puede ser un fetch o setState)
+    };
+  
     return currentCards.map((card, index) => (
       <CardItem
       key={index}
+      id_ad={card.id_ad}
       title={card.titulo}
       content={card.descripcion}
       region={card.region}
@@ -44,6 +50,7 @@ const Tabbar: React.FC<TabbarProps> = ({ firstOption, secondOption, cardsData ,c
       salario={card.salario}
       fecha_creacion={card.fecha_creacion}
       context={context}
+      onRefresh={context === 'misPublicaciones' ? refreshData : undefined}
      
     />
     ));
