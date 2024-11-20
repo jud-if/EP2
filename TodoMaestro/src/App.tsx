@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
+import { IonApp, IonContent, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Bienvenida from './pages/Bienvenida';
@@ -48,28 +48,30 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
+    <AuthProvider>
     <IonReactRouter>
-      <AuthProvider>
-        <Route path="/bienvenida" component={Bienvenida} exact />
-        <Route path="/registrarse" component={Registrarse} exact />
-        <Route path="/iniciosesion" component={InicioSesion} exact />
+      
+        <Route path="/bienvenida" component={Bienvenida}  />
+        <Route path="/registrarse" component={Registrarse}  />
+        <Route path="/iniciosesion" component={InicioSesion}  />
         <Redirect exact from="/" to="/bienvenida" />
 
       <Route path="/app">
         <Drawer /> 
-        <IonSplitPane contentId="main-content">
-
-          <IonRouterOutlet id="main-content">
-              <PrivateRoute path="/app/home" component={Home} exact />
-              <PrivateRoute path="/app/mispublicaciones" component={MisPublicaciones} exact />
-              <PrivateRoute path="/app/miperfil" component={MiPerfil} exact />
-              <PrivateRoute path="/app/guardados" component={Guardados} exact />
-              <PrivateRoute path="/app/publicar" component={Publicar} exact />
-          </IonRouterOutlet>
-        </IonSplitPane>
+        <IonRouterOutlet id="main-content">
+          <IonContent>
+            <PrivateRoute path="/app/home" component={Home}  />
+            <PrivateRoute path="/app/mispublicaciones" component={MisPublicaciones}  />
+            <PrivateRoute path="/app/miperfil" component={MiPerfil}  />
+            <PrivateRoute path="/app/guardados" component={Guardados}  />
+            <PrivateRoute path="/app/publicar" component={Publicar}  />
+            <Redirect exact from="/app/" to="/app/home" />
+          </IonContent>
+        </IonRouterOutlet>
       </Route>
-      </AuthProvider>
+      
     </IonReactRouter>
+    </AuthProvider>
   </IonApp>
 );
 
