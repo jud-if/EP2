@@ -85,7 +85,7 @@ const InicioSesion: React.FC = () => {
               type="password"
               placeholder="Ingrese su contraseña"
               value={userData.password}
-              onIonChange={handleChange}
+              onIonInput={handleChange}
             >
               <IonIcon slot="start" icon={lockClosed} aria-hidden="true"></IonIcon>
             </IonInput>

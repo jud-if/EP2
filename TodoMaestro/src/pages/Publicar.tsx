@@ -20,7 +20,6 @@ import {
 import './Publicar.css';
 //@ts-ignore
 import api from '../services/api';
-import { useHistory } from 'react-router';
 import { useAuth } from '../contexts/authContext';
 
 interface PublicarProps {
@@ -45,7 +44,6 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
   });
 
   const [error, setError] = useState('');
-  const history = useHistory();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -190,7 +188,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               type="number"
               class='custom'
               value={userData.salario}
-              onIonChange={handleChange}
+              onIonInput={handleChange}
               labelPlacement="stacked"
               placeholder="Escriba un salario aproximado.">
             </IonInput>

@@ -28,8 +28,3 @@ Debido a que en la ultima entrega se nos aviso que las paginas no se consideraba
 En cuanto a Patronesde diseño, terminamos implementando drawer y tabbar, otro punto es que agregamos en algunos puntos la flecha de back
 # Lectura JSON
 Por ultimo, el caso de la lectura JSON se hace en el perfil, donde al meterse a mi perfil, se mostraran datos basicos que se leen desde un JSON que se encuentra en la carpeta public
-
-
-# Detalles y Advertencias para el Uso
-- - Otra cosa a decir, es que tuvimos problemas con la parte de mis publicaciones, donde no se abre correctamente, pero al recargar si aparece
-- - Para avanzar desde el inicio, debe ingresar los siguientes datos en el inicio de sesion: usuario@ejemplo.com      ;   password: 123456

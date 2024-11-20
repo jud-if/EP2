@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-router.get('/usuarios/:idUsuario', anuncioController.getAnunciosByIdUsuario);
+router.get('/usuariosanuncios/:idUsuario', anuncioController.getAnunciosByIdUsuario);
 
 // Rutas generales de anuncios
 router.get('/anuncios', anuncioController.getAllAnuncios);

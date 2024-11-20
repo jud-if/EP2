@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
+const userRoutes = require('./routes/userRoutes');
 const anunciosRoutes = require('./routes/anunciosRoutes');
 const cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -52,6 +53,7 @@ app.use('/auth', authRoutes);
 // Rutas protegidas
 app.use('/api', authMiddleware);
 app.use('/api', anunciosRoutes);
+app.use('/api', userRoutes);
 
 function printRoutes(stack, prefix = '') {
   stack.forEach(function(r) {
