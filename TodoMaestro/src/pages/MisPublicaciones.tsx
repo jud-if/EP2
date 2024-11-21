@@ -2,7 +2,6 @@ import React, { useState , useEffect} from 'react';
 import { IonContent, IonLabel, IonPage, IonCardSubtitle, IonButton, IonIcon } from '@ionic/react';
 import { trash } from 'ionicons/icons';
 import Tabbar from '../components/tabbar';
-import Buscador from '../components/buscador';
 import BtnPublicar from '../components/btnOpciones';
 
 import { useAuth } from '../contexts/authContext';
@@ -48,12 +47,11 @@ const MisPublicaciones: React.FC = () => {
           }
         };
         fetchAnuncios();
-  }, []);
+  }, [userId]);
   return (
     <IonPage>
 
       <IonContent fullscreen>
-        <Buscador/>
         <Tabbar firstOption="Servicios" secondOption="Ofertas" cardsData={misPublicacionesCardsData} context='misPublicaciones'/>
       </IonContent>
 

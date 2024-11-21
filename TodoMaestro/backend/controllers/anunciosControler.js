@@ -33,7 +33,25 @@ exports.getAllAnuncios = (req, res) => {
     });
 };
 
-// Obtener un anuncio por su ID
+// Obtener un anuncio por su titulo
+exports.getAnuncioByTitulo = (req, res) => {
+  const { titulo } = req.params; // Obtener el título desde los parámetros de la ruta
+
+  const query = 'SELECT * FROM anuncios WHERE titulo = ?';
+
+  conexion.query(query, [titulo], (error, results) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta:', error);
+      return res.status(500).json({ error: 'Error al obtener el anuncio' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No se encontró un anuncio con ese título' });
+    }
+
+    res.status(200).json(results[0]);
+  });
+};
 
   
 // Crear un nuevo anuncio

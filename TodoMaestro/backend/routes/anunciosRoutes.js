@@ -11,4 +11,5 @@ router.get('/anuncios', anuncioController.getAllAnuncios);
 router.post('/anuncios', anuncioController.createAnuncio);
 router.put('/anuncios/:id_ad', anuncioController.updateAnuncio);
 router.delete('/anuncios/:id_ad', anuncioController.deleteAnuncio);
+router.get('/anuncios/:titulo', anuncioController.getAnuncioByTitulo);
 module.exports = router;

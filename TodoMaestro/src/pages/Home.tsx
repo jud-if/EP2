@@ -37,14 +37,10 @@ const Home: React.FC = () => {
   
     fetchAnuncios();
   }, []);
-  
-    
-
 
   return (
     <IonPage>
       <IonContent fullscreen>
-        <Buscador />
         <Tabbar firstOption="Trabajar" secondOption="Contratar" cardsData={homeCardsData} context='home' />
       </IonContent>
       <BtnPublicar />
