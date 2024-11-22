@@ -1,4 +1,9 @@
-# Entregable Parcial 2
+# Entrega FINAL
+
+# IMPORTANTE PARA CORRER PROYECTO:
+Esta es una falla que no pudimos resolver, pero que ocurre solo la primera vez que se abre la aplicación, aquí se especifica lo que sucede:
+* Al abrir la aplicación por primera vez, e iniciar sesión, redirige al Home correctamente, pero se ve en blanco, y en el drawer (menu lateral), todas las opciones llevan hacia el inicio de sesión nuevamente, exceptuando por el Cerrar Sesión, el cual devuelve hacia la primera página de Bienvenida correctamente, además de borrar la cookie.
+* Cuando pase esto, hay que reiniciar primero el servidor de backend, y luego reiniciar el servidor de Ionic, y entonces se puede usar la aplicación correctamente.
 
 # Justificacion BD
 (Las tablas estan en una imagen llamada Tablas_BD)
@@ -25,7 +30,4 @@ Debido a que en la ultima entrega se nos aviso que las paginas no se consideraba
 * Editar Perfil  (opcion que aparece en mi perfil) 
 
 # Aplicacion Patrones
-En cuanto a Patronesde diseño, terminamos implementando drawer y tabbar, otro punto es que agregamos en algunos puntos la flecha de back
-
-# Lectura JSON
-Por ultimo, el caso de la lectura JSON se hace en el perfil, donde al meterse a mi perfil, se mostraran datos basicos que se leen desde un JSON que se encuentra en la carpeta public
+En cuanto a Patrones de diseño, terminamos implementando drawer y tabbar, otro punto es que agregamos en algunos puntos la flecha de back
