@@ -26,7 +26,7 @@ const MisPublicaciones: React.FC = () => {
     const fetchAnuncios = async () => {
       try {
         const response = await fetch(`http://localhost:3000/api/usuariosanuncios/${userId}`, {
-          credentials: 'include', // Importante para enviar cookies
+          credentials: 'include', 
         });
 
         if (!response.ok) {
@@ -40,7 +40,7 @@ const MisPublicaciones: React.FC = () => {
         const ofertas = data.filter((item: any) => item.tipo_anuncio === "0");
 
         setMisPublicacionesCardsData({ ofertas, servicios });
-        setFilteredAnunciosMisPublicaciones({ ofertas, servicios }); // Inicialmente, los anuncios filtrados son los mismos que los originales
+        setFilteredAnunciosMisPublicaciones({ ofertas, servicios }); // Inicialmente, los anuncios filtrados serán los mismos que los originales
       } catch (error) {
         console.error('Error al cargar los anuncios:', error);
         setError('Error al cargar los anuncios');
