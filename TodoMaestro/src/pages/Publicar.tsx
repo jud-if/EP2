@@ -230,7 +230,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               <div slot="label">
               Tipo de Anuncio<IonText color="danger">(*)</IonText>
               </div>
-              <IonSelectOption value="1">Busco trabajo</IonSelectOption>
+              <IonSelectOption value="1">Busco Trabajo</IonSelectOption>
               <IonSelectOption value="0"> Busco contratar</IonSelectOption>
             </IonSelect>
           </IonItem>

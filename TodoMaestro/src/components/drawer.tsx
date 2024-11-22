@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonButton, IonTitle, IonToolbar, IonIcon, IonItem, IonList, IonLabel, IonMenuToggle } from '@ionic/react';
 import { bookmarks, create, home, logOut, person, personCircle } from 'ionicons/icons';
+import { useAuth } from '../contexts/authContext';
 //@ts-ignore
 import api from '../services/api';
 interface AppPage {
@@ -12,8 +13,24 @@ interface AppPage {
   action?: () => void;
 }
 
-
 const Drawer: React.FC = () => {
+  const [userName, setUserName] = useState('');
+  const { userId } = useAuth();
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await api.get(`api/usuarios/${userId}`);
+        setUserName(response.data.nombres + ' ' + response.data.apellido);
+      } catch (error) {
+        console.error('Error fetching user name:', error);
+      }
+    };
+
+    if (userId) {
+      fetchUserName();
+    }
+  }, [userId]);
 
   const history = useHistory();
   const location = useLocation();
@@ -66,7 +83,7 @@ const Drawer: React.FC = () => {
         <IonToolbar> 
           <IonIcon slot="start" icon={personCircle} size="large" className='ion-padding'>
           </IonIcon> 
-          <IonLabel>Juan Perez</IonLabel> 
+          <IonLabel>{userName}</IonLabel> 
         </IonToolbar> 
       </IonHeader> 
       <IonContent className="ion-padding"> 

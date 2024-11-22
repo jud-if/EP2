@@ -37,9 +37,9 @@ exports.getAllAnuncios = (req, res) => {
 exports.getAnuncioByTitulo = (req, res) => {
   const { titulo } = req.params; // Obtener el título desde los parámetros de la ruta
 
-  const query = 'SELECT * FROM anuncios WHERE titulo = ?';
+  const query = 'SELECT * FROM anuncios WHERE titulo LIKE ? OR descripcion LIKE ?';
 
-  conexion.query(query, [titulo], (error, results) => {
+  conexion.query(query, [`%${titulo}%`, `%${titulo}%`], (error, results) => {
     if (error) {
       console.error('Error al ejecutar la consulta:', error);
       return res.status(500).json({ error: 'Error al obtener el anuncio' });
