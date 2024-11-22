@@ -1,4 +1,4 @@
-// controllers/authController.js
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const conexion = require('../database');
@@ -8,7 +8,6 @@ dotenv.config();
 
 exports.checkAuthStatus = (req, res) => {
   if (req.user) {
-    // `req.user` debería estar configurado por el middleware `authMiddleware` si el token es válido
     res.json({ isAuthenticated: true, userId: req.user.id });
   } else {
     res.status(401).json({ isAuthenticated: false, message: 'No autenticado' });

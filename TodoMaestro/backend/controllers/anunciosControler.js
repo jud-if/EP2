@@ -11,7 +11,7 @@ exports.getAllAnuncios = (req, res) => {
   });
 };
   exports.getAnunciosByIdUsuario = (req, res) => {
-    const { idUsuario } = req.params; // Obtener el ID del usuario desde los parámetros de la ruta
+    const { idUsuario } = req.params; // Obtenemos el ID del usuario desde los parámetros de la ruta
     
     const query = 'SELECT * FROM anuncios WHERE id_usuario = ?';
     
@@ -35,7 +35,7 @@ exports.getAllAnuncios = (req, res) => {
 
 // Obtener un anuncio por su titulo
 exports.getAnuncioByTitulo = (req, res) => {
-  const { titulo } = req.params; // Obtener el título desde los parámetros de la ruta
+  const { titulo } = req.params; // Obtenemos el título desde los parámetros de la ruta
 
   const query = 'SELECT * FROM anuncios WHERE titulo LIKE ? OR descripcion LIKE ?';
 
@@ -93,7 +93,7 @@ exports.updateAnuncio = (req, res) => {
 };
 // Eliminar un anuncio
 exports.deleteAnuncio = (req, res) => {
-  const { id_ad } = req.params;  // Usar el nombre correcto del parámetro
+  const { id_ad } = req.params;  // Usamos el nombre correcto del parámetro
   console.log('ID recibido para eliminar:', id_ad);  // V
   const query = 'DELETE FROM anuncios WHERE id_ad = ?';
 
@@ -115,7 +115,7 @@ exports.deleteAnuncio = (req, res) => {
 // Obtener id anuncio recien publicado
 exports.AnuncioRecienCreado = (req, res) => {
   console.log("AnuncioRecienCreado");
-  const { id_usuario, fecha_creacion } = req.query; // Usar req.query para parámetros de consulta
+  const { id_usuario, fecha_creacion } = req.query; // Usar req.query para los parámetros de consulta
   const fechaFormateada = fecha_creacion.split('T')[0];
   console.log(id_usuario, fechaFormateada);
   const query = `
