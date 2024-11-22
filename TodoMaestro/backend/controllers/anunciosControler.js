@@ -93,21 +93,30 @@ exports.updateAnuncio = (req, res) => {
 };
 // Eliminar un anuncio
 exports.deleteAnuncio = (req, res) => {
-  const { id_ad } = req.params;  // Usamos el nombre correcto del parámetro
-  console.log('ID recibido para eliminar:', id_ad);  // V
-  const query = 'DELETE FROM anuncios WHERE id_ad = ?';
+  const { id_ad } = req.params;
+  console.log('ID recibido para eliminar:', id_ad);
 
-  conexion.query(query, [id_ad], (error, result) => {
+  const query1 = `DELETE FROM adsetiqueta WHERE id_ad = ?`;
+  const query2 = `DELETE FROM anuncios WHERE id_ad = ?`;
+
+  conexion.query(query1, [id_ad], (error, result) => {
     if (error) {
-      console.error('Error al eliminar anuncio:', error);
-      return res.status(500).json({ error: 'Error al eliminar el anuncio' });
+      console.error('Error al eliminar etiquetas del anuncio:', error);
+      return res.status(500).json({ error: 'Error al eliminar las etiquetas del anuncio' });
     }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'El anuncio no existe o ya fue eliminado' });
-    }
+    conexion.query(query2, [id_ad], (error, result) => {
+      if (error) {
+        console.error('Error al eliminar anuncio:', error);
+        return res.status(500).json({ error: 'Error al eliminar el anuncio' });
+      }
 
-    res.json({ message: 'Anuncio eliminado con' });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'El anuncio no existe o ya fue eliminado' });
+      }
+
+      res.json({ message: 'Anuncio eliminado con éxito' });
+    });
   });
 };
 

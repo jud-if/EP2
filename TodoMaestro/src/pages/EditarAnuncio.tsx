@@ -49,6 +49,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
   const [salario, setSalario] = useState(anuncio.salario);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [comunas, setComunas] = useState<string[]>([]);
+  const [isPublished, setIsPublished] = useState(false);
 
   useEffect(() => {
     const regionSeleccionada = regionesComunas.regiones.find(region => region.region === anuncio.region);
@@ -75,9 +76,9 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
   
       if (response && response.status === 200) {
         console.log('Anuncio actualizado con éxito:', anuncioActualizado);
+        setIsPublished(true);
         setShowSuccessAlert(true); // Muestra la alerta de éxito
 
-        onClose(); // Cerrar el modal
       } else {
         throw new Error('Error al guardar los cambios');
       }
@@ -108,7 +109,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
           {/* Título */}
           <IonItem>
             <IonLabel position="stacked">Título</IonLabel>
-            <IonInput value={titulo} onIonChange={(e) => setTitle(e.detail.value!)} />
+            <IonInput value={titulo} onIonInput={(e) => setTitle(e.detail.value!)} />
           </IonItem>
 
           
@@ -118,7 +119,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
             <IonLabel position="stacked">Descripcion</IonLabel>
             <IonTextarea
               value={descripcion}
-              onIonChange={(e) => setdescripcion(e.detail.value!)}
+              onIonInput={(e) => setdescripcion(e.detail.value!)}
             />
           </IonItem>
 
