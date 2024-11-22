@@ -7,55 +7,55 @@ import BtnPublicar from '../components/btnOpciones';
 import { useAuth } from '../contexts/authContext';
 
 const MisPublicaciones: React.FC = () => {
-  const [misPublicacionesCardsData, setHomeCardsData] = useState<{ ofertas: any[]; servicios: any[] }>({
-        ofertas: [],
-        servicios: [],
-      });
-      const [error, setError] = useState<string>('');
-      const [loading, setLoading] = useState(true);
-    
-      const { userId } = useAuth();
-      useEffect(() => {
-        const fetchAnuncios = async () => {
-          try {
-            
-    
-            // Usamos el ID del usuario obtenido
+  const [misPublicacionesCardsData, setMisPublicacionesCardsData] = useState<{ ofertas: any[]; servicios: any[] }>({
+    ofertas: [],
+    servicios: [],
+  });
 
-            // Hacemos la petición con el ID del usuario
-            const response = await fetch(`http://localhost:3000/api/usuariosanuncios/${userId}`, {
-              credentials: 'include' // Importante para enviar cookies
-            });
-            
-    
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-            
-            // Separamos los anuncios por tipo
-            const servicios = data.filter((item: any) => item.tipo_anuncio === "1");
-            const ofertas = data.filter((item: any) => item.tipo_anuncio === "0");
+  const [filteredAnunciosMisPublicaciones, setFilteredAnunciosMisPublicaciones] = useState<{ ofertas: any[]; servicios: any[] }>({
+    ofertas: [],
+    servicios: [],
+  });
+  const [isFiltered, setIsFiltered] = useState(false); // Estado para verificar si hay filtros aplicados
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
-            setHomeCardsData({ ofertas, servicios });
-          } catch (error) {
-            console.error('Error al cargar los anuncios:', error);
-            setError('Error al cargar los anuncios');
-          } finally {
-            setLoading(false);
-          }
-        };
-        fetchAnuncios();
+  const { userId } = useAuth();
+
+  useEffect(() => {
+    const fetchAnuncios = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/usuariosanuncios/${userId}`, {
+          credentials: 'include', // Importante para enviar cookies
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Separamos los anuncios por tipo
+        const servicios = data.filter((item: any) => item.tipo_anuncio === "1");
+        const ofertas = data.filter((item: any) => item.tipo_anuncio === "0");
+
+        setMisPublicacionesCardsData({ ofertas, servicios });
+        setFilteredAnunciosMisPublicaciones({ ofertas, servicios }); // Inicialmente, los anuncios filtrados son los mismos que los originales
+      } catch (error) {
+        console.error('Error al cargar los anuncios:', error);
+        setError('Error al cargar los anuncios');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnuncios();
   }, [userId]);
   return (
     <IonPage>
-
       <IonContent fullscreen>
-        <Tabbar firstOption="Servicios" secondOption="Ofertas" cardsData={misPublicacionesCardsData} context='misPublicaciones'/>
+        <Tabbar firstOption="Servicios" secondOption="Ofertas" cardsData={isFiltered ? filteredAnunciosMisPublicaciones : misPublicacionesCardsData} context="misPublicaciones" />
       </IonContent>
-
-      <BtnPublicar/>
+      <BtnPublicar setFilteredAnunciosMisPublicaciones={setFilteredAnunciosMisPublicaciones} setIsFiltered={setIsFiltered} context="misPublicaciones" />
     </IonPage>
   );
 };

@@ -7,11 +7,12 @@ import api from '../services/api';
 
 interface BtnPublicarProps {
   setFilteredAnunciosHome?: React.Dispatch<React.SetStateAction<{ contratar: any[]; trabajar: any[] }>>;
+  setFilteredAnunciosMisPublicaciones?: React.Dispatch<React.SetStateAction<{ ofertas: any[]; servicios: any[] }>>;
   setIsFiltered?: React.Dispatch<React.SetStateAction<boolean>>;
   context: 'home' | 'misPublicaciones';
 }
 
-const BtnPublicar: React.FC<BtnPublicarProps> = ({ setFilteredAnunciosHome, setIsFiltered, context }) => {
+const BtnPublicar: React.FC<BtnPublicarProps> = ({ setFilteredAnunciosHome, setFilteredAnunciosMisPublicaciones, setIsFiltered, context }) => {
   const [showModalPublicar, setShowModalPublicar] = useState(false);
   const [showModalFiltros, setShowModalFiltros] = useState(false);
   const [availableTags, setAvailableTags] = useState<{ id_etiqueta: number; nombre_etiqueta: string }[]>([]);
@@ -40,6 +41,11 @@ const BtnPublicar: React.FC<BtnPublicarProps> = ({ setFilteredAnunciosHome, setI
         const contratar = response.data.filter((item: any) => item.tipo_anuncio === "0");
         const trabajar = response.data.filter((item: any) => item.tipo_anuncio === "1");
         setFilteredAnunciosHome({ contratar, trabajar });
+        setIsFiltered(true); // Indica que hay filtros aplicados
+      } else if (context === 'misPublicaciones' && setFilteredAnunciosMisPublicaciones && setIsFiltered) {
+        const ofertas = response.data.filter((item: any) => item.tipo_anuncio === "0");
+        const servicios = response.data.filter((item: any) => item.tipo_anuncio === "1");
+        setFilteredAnunciosMisPublicaciones({ ofertas, servicios });
         setIsFiltered(true); // Indica que hay filtros aplicados
       }
     } catch (error) {
