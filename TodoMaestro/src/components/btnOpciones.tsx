@@ -5,7 +5,13 @@ import Publicar from '../pages/Publicar';
 //@ts-ignoref
 import api from '../services/api';
 
-const BtnPublicar: React.FC = () => {
+interface BtnPublicarProps {
+  setFilteredAnunciosHome?: React.Dispatch<React.SetStateAction<{ contratar: any[]; trabajar: any[] }>>;
+  setIsFiltered?: React.Dispatch<React.SetStateAction<boolean>>;
+  context: 'home' | 'misPublicaciones';
+}
+
+const BtnPublicar: React.FC<BtnPublicarProps> = ({ setFilteredAnunciosHome, setIsFiltered, context }) => {
   const [showModalPublicar, setShowModalPublicar] = useState(false);
   const [showModalFiltros, setShowModalFiltros] = useState(false);
   const [availableTags, setAvailableTags] = useState<{ id_etiqueta: number; nombre_etiqueta: string }[]>([]);
@@ -29,7 +35,13 @@ const BtnPublicar: React.FC = () => {
       console.log('Aplicando filtros:', selectedTagIds);
       const response = await api.post('/api/filterAnunciosByEtiquetas', { etiquetas: selectedTagIds });
       console.log('Anuncios filtrados:', response.data);
-      // Aquí puedes actualizar el estado de los anuncios en tu aplicación para mostrar los anuncios filtrados
+
+      if (context === 'home' && setFilteredAnunciosHome && setIsFiltered) {
+        const contratar = response.data.filter((item: any) => item.tipo_anuncio === "0");
+        const trabajar = response.data.filter((item: any) => item.tipo_anuncio === "1");
+        setFilteredAnunciosHome({ contratar, trabajar });
+        setIsFiltered(true); // Indica que hay filtros aplicados
+      }
     } catch (error) {
       console.error('Error al aplicar filtros:', error);
     }
