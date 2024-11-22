@@ -73,23 +73,25 @@ exports.createAnuncio = (req, res) => {
 };
 
 // Actualizar un anuncio
+
 exports.updateAnuncio = (req, res) => {
-  const { id } = req.params;
+  const { id_ad } = req.params;
   const { titulo, descripcion, region, comuna, salario } = req.body;
+  console.log('update')
 
   const query = `
     UPDATE anuncios 
     SET titulo = ?, descripcion = ?, region = ?, comuna = ?, salario = ?
     WHERE id_ad = ?`;
 
-  conexion.query(query, [titulo, descripcion, region, comuna, salario, id], (error) => {
+  console.log("Editar anuncio ", id_ad,"Data:", req.body )
+  conexion.query(query, [titulo, descripcion, region, comuna, salario, id_ad], (error) => {
     if (error) {
       return res.status(500).json({ error: 'Error al actualizar anuncio' });
     }
     res.json({ message: 'Anuncio actualizado con éxito' });
   });
 };
-
 // Eliminar un anuncio
 exports.deleteAnuncio = (req, res) => {
   const { id_ad } = req.params;  // Usar el nombre correcto del parámetro
