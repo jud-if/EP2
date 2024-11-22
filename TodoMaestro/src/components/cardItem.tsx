@@ -15,6 +15,7 @@ import {
 } from '@ionic/react';
 import { createEnhancedCardData } from './cardDataEnhancer';
 import Eliminar from '../pages/Eliminar';
+import EditarAnuncio from '../pages/EditarAnuncio';
 
 interface CardItemProps extends JobData {
   context: 'home' | 'misPublicaciones';
@@ -25,7 +26,14 @@ interface CardItemProps extends JobData {
 const CardItem: React.FC<CardItemProps> = (props) => {
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  const handleGuardarCambios = () => {
+    // Aquí harías la lógica de envío al backend
+    console.log('Datos actualizados:', props);
+    setIsEditModalOpen(false);
+    props.onRefresh?.();
+  };
   const toggleBookmark = () => {
     setBookmarked(!bookmarked);
   };
@@ -61,7 +69,7 @@ const CardItem: React.FC<CardItemProps> = (props) => {
           },
           {
             label: 'Editar',
-            onClick: () => alert('Editar anuncio'), // Lógica para editar
+            onClick: () => setIsEditModalOpen(true), // Abre el modal de editar
           },
         ]
       : []),
@@ -121,6 +129,24 @@ const CardItem: React.FC<CardItemProps> = (props) => {
             onEliminar={props.onRefresh ?? (() => {})} // Aseguramos que siempre sea una función válida
           />
         )}
+
+      {props.context === 'misPublicaciones' && (
+        <EditarAnuncio
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          anuncio={{
+            id_ad: props.id_ad,
+            title: props.title,
+            //subtitle: props.subtitle,
+            content: props.content,
+            region: props.region,
+            comuna: props.comuna,
+            salario: props.salario,
+            fecha_creacion: props.fecha_creacion,
+          }}
+        
+        />
+      )}
 
     </IonCard>
     </>
