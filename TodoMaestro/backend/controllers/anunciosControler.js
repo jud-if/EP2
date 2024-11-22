@@ -118,7 +118,10 @@ exports.AnuncioRecienCreado = (req, res) => {
   const { id_usuario, fecha_creacion } = req.query; // Usar req.query para parámetros de consulta
   const fechaFormateada = fecha_creacion.split('T')[0];
   console.log(id_usuario, fechaFormateada);
-  const query = `SELECT id_ad FROM anuncios WHERE id_usuario = ? AND fecha_creacion = ?`;
+  const query = `
+  SELECT id_ad FROM anuncios 
+  ORDER BY id_ad DESC
+  LIMIT 1`;
   conexion.query(query, [id_usuario, fechaFormateada], (error, results) => {
     if (error) {
       console.error('Error al obtener el ID del anuncio:', error);
@@ -129,7 +132,7 @@ exports.AnuncioRecienCreado = (req, res) => {
       return res.status(404).json({ message: 'No se encontró un anuncio con esos datos' });
     }
 
-    const [anuncio] = results;
-    res.json(anuncio);
+    console.log(results);
+    res.json({ id: results[0].id_ad });
   });
 };

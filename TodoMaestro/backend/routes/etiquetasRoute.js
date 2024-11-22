@@ -9,4 +9,7 @@ router.post('/insertarAnunciosEtiquetas', etiquetasController.InsertarAnunciosEt
 // Ruta para obtener todas las etiquetas
 router.get('/getAllEtiquetas', etiquetasController.getAllEtiquetas);
 
+// Ruta para filtrar anuncios por etiquetas
+router.post('/filterAnunciosByEtiquetas', etiquetasController.filterAnunciosByEtiquetas);
+
 module.exports = router;

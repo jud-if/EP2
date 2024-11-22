@@ -71,6 +71,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
       const response = await api.get('/api/findanuncios', {
         params: { id_usuario: idUsuario, fecha_creacion: fecha }
       });
+      console.log('ID del anuncio:', response.data.id);
       return response.data.id; // Suponiendo que el backend retorna el ID
     } catch (error) {
       console.error('Error al obtener el ID del anuncio:', error);
@@ -80,7 +81,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
 
   const relacionarEtiquetasConAnuncio = async (anuncioId: number, tagIds: number[]) => {
     try {
-      const relaciones = tagIds.map((tagId) => ({ anuncio_id: anuncioId, tag_id: tagId }));
+      const relaciones = tagIds.map((tagId) => ({ id_ad: anuncioId, id_etiqueta: tagId }));
       await api.post('/api/insertarAnunciosEtiquetas', relaciones);
       console.log('Relaciones etiquetas-anuncio guardadas.');
     } catch (error) {
@@ -114,6 +115,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
 
          // Llama a la función para obtener el ID del anuncio recién publicado
         const anuncioId = await fetchAnuncioId(Number(userId), fecha);
+        console.log('ID del anuncio EN FETCH:', anuncioId);
 
         // Relaciona el anuncio con las etiquetas seleccionadas
         await relacionarEtiquetasConAnuncio(anuncioId, selectedTagIds);
@@ -228,7 +230,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               <div slot="label">
               Tipo de Anuncio<IonText color="danger">(*)</IonText>
               </div>
-              <IonSelectOption value="1">Electricidad</IonSelectOption>
+              <IonSelectOption value="1">Busco trabajo</IonSelectOption>
               <IonSelectOption value="0"> Busco contratar</IonSelectOption>
             </IonSelect>
           </IonItem>
