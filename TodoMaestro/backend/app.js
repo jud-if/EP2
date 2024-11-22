@@ -22,10 +22,10 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-  origin: 'http://localhost:8100',  // Origen de tu aplicación frontend
+  origin: 'http://localhost:8100',  // Puerto de la aplicación parte frontend
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-  credentials: true, // Si estás usando cookies o autenticación con credenciales
+  credentials: true, 
 };
 
 app.use(cors(corsOptions));
@@ -64,7 +64,7 @@ function printRoutes(stack, prefix = '') {
               console.log(`${method.toUpperCase()} ${prefix}${r.route.path}`);
           });
       } else if (r.name === 'router') {
-          // Esta parte imprime las subrutas
+          // Imprimimos las subrutas
           r.handle.stack.forEach(function(sr) {
               if (sr.route) {
                   Object.keys(sr.route.methods).forEach(method => {

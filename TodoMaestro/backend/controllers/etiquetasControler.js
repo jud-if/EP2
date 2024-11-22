@@ -34,7 +34,7 @@ exports.getAllEtiquetas = (req, res) => {
 
 // Filtrar anuncios por etiquetas
 exports.filterAnunciosByEtiquetas = (req, res) => {
-  const { etiquetas } = req.body; // Recibir las etiquetas seleccionadas en el cuerpo de la solicitud
+  const { etiquetas } = req.body; // Recibimos las etiquetas seleccionadas en el cuerpo de la solicitud
   console.log(etiquetas);
 
   if (!etiquetas || etiquetas.length === 0) {

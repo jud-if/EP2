@@ -1,4 +1,4 @@
-// middlewares/authMiddleware.js
+
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
@@ -7,7 +7,7 @@ dotenv.config();
 const authMiddleware = (req, res, next) => {
   const token = req.cookies?.authToken; // Verifica si existe req.cookies
 
-  // Si no hay token, permitir acceso a rutas no protegidas
+  // Si no hay token, permitimos acceso a rutas no protegidas
   if (!token) {
     req.user = null; // Opción para identificar usuarios no autenticados
     return next();
