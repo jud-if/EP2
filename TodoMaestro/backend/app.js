@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const anunciosRoutes = require('./routes/anunciosRoutes');
+const etiquetasRoute = require('./routes/etiquetasRoute');
 const cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -54,6 +55,7 @@ app.use('/auth', authRoutes);
 app.use('/api', authMiddleware);
 app.use('/api', anunciosRoutes);
 app.use('/api', userRoutes);
+app.use('/api', etiquetasRoute);
 
 function printRoutes(stack, prefix = '') {
   stack.forEach(function(r) {

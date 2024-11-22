@@ -56,8 +56,7 @@ exports.getAnuncioByTitulo = (req, res) => {
   
 // Crear un nuevo anuncio
 exports.createAnuncio = (req, res) => {
-  const { tipo_anuncio, titulo, descripcion, region, comuna, salario, id_usuario } = req.body;
-  const fecha_creacion = new Date();
+  const { tipo_anuncio, titulo, descripcion, region, comuna, salario, id_usuario, fecha_creacion } = req.body;
 
   const query = `
     INSERT INTO anuncios (tipo_anuncio, titulo, descripcion, region, comuna, salario, fecha_creacion, id_usuario) 
@@ -107,5 +106,28 @@ exports.deleteAnuncio = (req, res) => {
     }
 
     res.json({ message: 'Anuncio eliminado con' });
+  });
+};
+
+
+// Obtener id anuncio recien publicado
+exports.AnuncioRecienCreado = (req, res) => {
+  console.log("AnuncioRecienCreado");
+  const { id_usuario, fecha_creacion } = req.query; // Usar req.query para parámetros de consulta
+  const fechaFormateada = fecha_creacion.split('T')[0];
+  console.log(id_usuario, fechaFormateada);
+  const query = `SELECT id_ad FROM anuncios WHERE id_usuario = ? AND fecha_creacion = ?`;
+  conexion.query(query, [id_usuario, fechaFormateada], (error, results) => {
+    if (error) {
+      console.error('Error al obtener el ID del anuncio:', error);
+      return res.status(500).json({ error: 'Error al obtener el ID del anuncio' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No se encontró un anuncio con esos datos' });
+    }
+
+    const [anuncio] = results;
+    res.json(anuncio);
   });
 };

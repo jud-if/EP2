@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonHeader,
   IonToolbar,
@@ -18,7 +18,7 @@ import {
   IonAlert,
 } from '@ionic/react';
 import './Publicar.css';
-//@ts-ignore
+//@ts-ignoref
 import api from '../services/api';
 import { useAuth } from '../contexts/authContext';
 
@@ -31,10 +31,29 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
+  // manejar IDs etiquetas seleccionadas
+  const [availableTags, setAvailableTags] = useState<{ id_etiqueta: number; nombre_etiqueta: string }[]>([]);
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        console.log('Iniciando la solicitud para obtener etiquetas');
+        const response = await api.get('/api/getAllEtiquetas'); 
+        console.log('Respuesta de la API:', response);
+        setAvailableTags(response.data);
+      } catch (error) {
+        console.error('Error al cargar las etiquetas:', error);
+      }
+    };
+  
+    fetchTags();
+  }, []);
+
 
   const { userId } = useAuth(); // Obtener el ID del usuario autenticado
 
-  const [userData, setUserData] = useState({
+  const [AnunciosData, setAnunciosData] = useState({
     tipo_anuncio: '',
     titulo: '',
     descripcion: '',
@@ -45,26 +64,59 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
 
   const [error, setError] = useState('');
 
+  // Obtener la id del anuncio Publicado
+  const fetchAnuncioId = async (idUsuario: number, fecha: string) => {
+    try {
+      console.log("EN PUBLICAR:", idUsuario, fecha);
+      const response = await api.get('/api/findanuncios', {
+        params: { id_usuario: idUsuario, fecha_creacion: fecha }
+      });
+      return response.data.id; // Suponiendo que el backend retorna el ID
+    } catch (error) {
+      console.error('Error al obtener el ID del anuncio:', error);
+      throw new Error('No se pudo obtener el ID del anuncio.');
+    }
+  };
+
+  const relacionarEtiquetasConAnuncio = async (anuncioId: number, tagIds: number[]) => {
+    try {
+      const relaciones = tagIds.map((tagId) => ({ anuncio_id: anuncioId, tag_id: tagId }));
+      await api.post('/api/insertarAnunciosEtiquetas', relaciones);
+      console.log('Relaciones etiquetas-anuncio guardadas.');
+    } catch (error) {
+      console.error('Error al relacionar etiquetas con el anuncio:', error);
+      throw new Error('No se pudieron guardar las relaciones de etiquetas.');
+    }
+  }
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setUserData((prevData) => ({
+    setAnunciosData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const handlePublicar = async () => {
-    if (!userData.titulo || !userData.region || !userData.comuna || !userData.tipo_anuncio) {
+    if (!AnunciosData.titulo || !AnunciosData.region || !AnunciosData.comuna || !AnunciosData.tipo_anuncio) {
       setError('Por favor, completar los campos obligatorios (*)');
     } else {
       setError('');
       try {
+        const fecha = new Date().toISOString();
         const payload = {
-          ...userData,
+          ...AnunciosData,
+          fecha_creacion: fecha,
           id_usuario: userId,
         };
         const response = await api.post('/api/anuncios', payload);
-        console.log(response.data);
+        console.log('Anuncio publicado:', response.data);
+
+         // Llama a la función para obtener el ID del anuncio recién publicado
+        const anuncioId = await fetchAnuncioId(Number(userId), fecha);
+
+        // Relaciona el anuncio con las etiquetas seleccionadas
+        await relacionarEtiquetasConAnuncio(anuncioId, selectedTagIds);
   
         setIsPublished(true); // Cambia el estado al publicar
         setShowSuccessAlert(true); // Muestra la alerta de éxito
@@ -116,7 +168,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             placeholder="Escriba un título."
             counter={true}
             maxlength={50}
-            value={userData.titulo}
+            value={AnunciosData.titulo}
             onIonChange={handleChange}
             class='custom'
             required
@@ -129,7 +181,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             autoGrow={true}
             placeholder='Escriba una descripción.'
             maxlength={700}
-            value={userData.descripcion}
+            value={AnunciosData.descripcion}
             onIonChange={handleChange}
             class='custom'
           >  
@@ -139,7 +191,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             <IonSelect 
               name='region'
               placeholder="Seleccione su región" 
-              value={userData.region}
+              value={AnunciosData.region}
               onIonChange={handleChange}
             >
               <div slot="label">
@@ -155,7 +207,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             <IonSelect 
               name='comuna'
               placeholder="Seleccione su comuna" 
-              value={userData.comuna}
+              value={AnunciosData.comuna}
               onIonChange={handleChange}
             >
               <div slot="label">
@@ -170,13 +222,13 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             <IonSelect 
               name='tipo_anuncio'
               placeholder="Seleccione su preferencia" 
-              value={userData.tipo_anuncio}
+              value={AnunciosData.tipo_anuncio}
               onIonChange={handleChange}
             >
               <div slot="label">
               Tipo de Anuncio<IonText color="danger">(*)</IonText>
               </div>
-              <IonSelectOption value="1"> Busco trabajo</IonSelectOption>
+              <IonSelectOption value="1">Electricidad</IonSelectOption>
               <IonSelectOption value="0"> Busco contratar</IonSelectOption>
             </IonSelect>
           </IonItem>
@@ -187,11 +239,27 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               label="Salario"
               type="number"
               class='custom'
-              value={userData.salario}
+              value={AnunciosData.salario}
               onIonInput={handleChange}
               labelPlacement="stacked"
               placeholder="Escriba un salario aproximado.">
             </IonInput>
+          </IonItem>
+
+          <IonItem>
+            <IonSelect
+              name="nombre_etiqueta"
+              multiple={true}
+              placeholder="Seleccione etiquetas"
+              value={selectedTagIds}
+              onIonChange={(e) => setSelectedTagIds(e.detail.value)}
+            >
+              {availableTags.map((tag) => (
+                <IonSelectOption key={tag.id_etiqueta} value={tag.id_etiqueta}>
+                  {tag.nombre_etiqueta}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
           </IonItem>
           {error && (
             <IonText color="danger">

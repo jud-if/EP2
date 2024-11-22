@@ -50,29 +50,29 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <AuthProvider>
-    <IonReactRouter>
-      
+      <IonReactRouter>
+        
         <Route path="/bienvenida" component={Bienvenida}  />
         <Route path="/registrarse" component={Registrarse}  />
         <Route path="/iniciosesion" component={InicioSesion}  />
         <Redirect exact from="/" to="/bienvenida" />
 
-      <Route path="/app">
-        <Drawer /> 
-        <IonRouterOutlet id="main-content">
-          <IonContent>
-            <PrivateRoute path="/app/home" component={Home}  />
-            <PrivateRoute path="/app/mispublicaciones" component={MisPublicaciones}  />
-            <PrivateRoute path="/app/miperfil" component={MiPerfil}  />
-            <PrivateRoute path="/app/guardados" component={Guardados}  />
-            <PrivateRoute path="/app/publicar" component={Publicar}  />
-            <PrivateRoute path="/app/editarperfil" component={EditarPerfil}  />
-            <Redirect exact from="/app/" to="/app/home" />
-          </IonContent>
-        </IonRouterOutlet>
-      </Route>
-      
-    </IonReactRouter>
+        <Route path="/app">
+          <Drawer /> 
+          <IonRouterOutlet id="main-content">
+            <IonContent>
+              <PrivateRoute path="/app/home" component={Home}  />
+              <PrivateRoute path="/app/mispublicaciones" component={MisPublicaciones}  />
+              <PrivateRoute path="/app/miperfil" component={MiPerfil}  />
+              <PrivateRoute path="/app/guardados" component={Guardados}  />
+              <PrivateRoute path="/app/publicar" component={Publicar}  />
+              <PrivateRoute path="/app/editarperfil" component={EditarPerfil}  />
+              <Redirect exact from="/app" to="/app/home" />
+            </IonContent>
+          </IonRouterOutlet>
+        </Route>
+        
+      </IonReactRouter>
     </AuthProvider>
   </IonApp>
 );
