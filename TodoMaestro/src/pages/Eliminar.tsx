@@ -25,9 +25,9 @@ const Eliminar: React.FC<EliminarProps> = ({ isOpen, onClose, anuncioId, onElimi
         const response = await api.delete(`/api/anuncios/${anuncioId}`);
 
         if (response.status === 200) {
-          setShowSuccessAlert(true); // Muestra la alerta de éxito
-          onEliminar(); // Callback para actualizar los datos
-          onClose(); // Cerrar el modal
+          setShowSuccessAlert(true); 
+          onEliminar(); 
+          onClose(); 
         } else {
           console.error('Error al eliminar el anuncio.');
         }
@@ -61,8 +61,8 @@ const Eliminar: React.FC<EliminarProps> = ({ isOpen, onClose, anuncioId, onElimi
             {
               text: 'OK',
               handler: () => {
-                setShowSuccessAlert(false); // Cierra la alerta
-                onClose(); // Cerrar el modal
+                setShowSuccessAlert(false); 
+                onClose(); 
               },
             },
           ]}
