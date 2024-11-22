@@ -21,6 +21,7 @@ import './Publicar.css';
 //@ts-ignoref
 import api from '../services/api';
 import { useAuth } from '../contexts/authContext';
+import regionesComunas from '../assets/comunas-regiones.json';
 
 interface PublicarProps {
   onClose: () => void; 
@@ -30,6 +31,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
   const [present] = useIonActionSheet();
   const [isPublished, setIsPublished] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [comunas, setComunas] = useState<string[]>([]);
 
   // manejar IDs etiquetas seleccionadas
   const [availableTags, setAvailableTags] = useState<{ id_etiqueta: number; nombre_etiqueta: string }[]>([]);
@@ -89,6 +91,15 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
       throw new Error('No se pudieron guardar las relaciones de etiquetas.');
     }
   }
+
+  useEffect(() => {
+    const regionSeleccionada = regionesComunas.regiones.find(region => region.region === AnunciosData.region);
+    if (regionSeleccionada) {
+      setComunas(regionSeleccionada.comunas);
+    } else {
+      setComunas([]);
+    }
+  }, [AnunciosData.region]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -199,9 +210,11 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               <div slot="label">
               Región<IonText color="danger">(*)</IonText>
               </div>
-              <IonSelectOption value="Región Metropolitana">Región Metropolitana</IonSelectOption>
-              <IonSelectOption value="Valparaíso">Valparaíso</IonSelectOption>
-              <IonSelectOption value="Biobío">Biobío</IonSelectOption>
+              {regionesComunas.regiones.map((region) => (
+                <IonSelectOption key={region.region} value={region.region}>
+                  {region.region}
+                </IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
 
@@ -215,8 +228,11 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
               <div slot="label">
               Comuna<IonText color="danger">(*)</IonText>
               </div>
-              <IonSelectOption value="Comuna 1">Comuna 1</IonSelectOption>
-              <IonSelectOption value="Comuna 2">Comuna 2</IonSelectOption>
+              {comunas.map((comuna) => (
+                <IonSelectOption key={comuna} value={comuna}>
+                  {comuna}
+                </IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
 

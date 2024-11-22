@@ -1,9 +1,10 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { IonContent,IonHeader, IonPage, IonTitle, IonToolbar,IonItem,IonLabel,IonSelect,IonSelectOption,IonInput,IonText,IonButton, IonBackButton, IonButtons, IonList, IonIcon} from '@ionic/react';
 import { useHistory } from 'react-router';
 import { arrowBack, chevronBack } from 'ionicons/icons';
 //@ts-ignore
 import api from '../services/api';
+import regionesComunas from '../assets/comunas-regiones.json';
 
 const Registrarse: React.FC = () => {
 
@@ -15,10 +16,19 @@ const Registrarse: React.FC = () => {
       password: '',
       confirmPassword: '',
       email: '',
-      tipoPerfil: ''
   });
   
   const [error, setError] = useState('');
+  const [comunas, setComunas] = useState<string[]>([]);
+
+  useEffect(() => {
+    const regionSeleccionada = regionesComunas.regiones.find(region => region.region === userData.region);
+    if (regionSeleccionada) {
+      setComunas(regionSeleccionada.comunas);
+    } else {
+      setComunas([]);
+    }
+  }, [userData.region]);
   
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -31,7 +41,7 @@ const Registrarse: React.FC = () => {
   const handleRegister = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
-    if (!userData.region || !userData.comuna || !userData.usuario || !userData.apellido || !userData.password || !userData.confirmPassword || !userData.email || !userData.tipoPerfil) {
+    if (!userData.region || !userData.comuna || !userData.usuario || !userData.apellido || !userData.password || !userData.confirmPassword || !userData.email) {
       setError('Por favor completa todos los campos');
     } else if (!emailRegex.test(userData.email)) {
       setError('Por favor ingresa un email válido');
@@ -136,33 +146,27 @@ const Registrarse: React.FC = () => {
               placeholder="Selecciona tu región"
               onIonChange={handleChange}
             >
-              <IonSelectOption value="Region Metropolitana">Región Metropolitana</IonSelectOption>
-              <IonSelectOption value="Valparaíso">Valparaíso</IonSelectOption>
-              <IonSelectOption value="Biobío">Biobío</IonSelectOption>
+              {regionesComunas.regiones.map((region) => (
+                <IonSelectOption key={region.region} value={region.region}>
+                  {region.region}
+                </IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
 
           <IonItem>
-            <IonInput
+            <IonSelect 
               label='Comuna'
-              type="text"
               name="comuna"
               value={userData.comuna}
               placeholder="Ingresa tu comuna"
               onIonChange={handleChange}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonSelect
-              label='Tipo de Perfil'
-              name="tipoPerfil"
-              value={userData.tipoPerfil}
-              placeholder="Elige tu perfil"
-              onIonChange={handleChange}
             >
-              <IonSelectOption value="Trabajador">Trabajador</IonSelectOption>
-              <IonSelectOption value="Empleador">Empleador</IonSelectOption>
+              {comunas.map((comuna) => (
+                <IonSelectOption key={comuna} value={comuna}>
+                  {comuna}
+                </IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
 

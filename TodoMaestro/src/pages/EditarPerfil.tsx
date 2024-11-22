@@ -21,6 +21,7 @@ import { useAuth } from '../contexts/authContext';
 import api from '../services/api';
 import './EditarPerfil.css';
 import { getUserData } from '../services/userService';
+import regionesComunas from '../assets/comunas-regiones.json';
 
 interface UserData {
     nombres: string;
@@ -45,12 +46,22 @@ const EditarPerfil: React.FC = ({ }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [comunas, setComunas] = useState<string[]>([]);
 
     useEffect(() => {
         if (userId) {
             getUserData(userId, setUserData, setError, setLoading);
         }
     }, [userId]);
+
+    useEffect(() => {
+        const regionSeleccionada = regionesComunas.regiones.find(region => region.region === userData.region);
+        if (regionSeleccionada) {
+            setComunas(regionSeleccionada.comunas);
+        } else {
+            setComunas([]);
+        }
+    }, [userData.region]);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -135,26 +146,35 @@ const EditarPerfil: React.FC = ({ }) => {
                         <IonSelectOption value="Trabajador">Trabajador</IonSelectOption>
                         <IonSelectOption value="Empleador">Empleador</IonSelectOption>
                     </IonSelect>
-                    <IonInput
+
+                    <IonSelect
                         label="Región"
                         name='region'
                         labelPlacement="stacked"
-                        placeholder="Escriba su región."
                         value={userData.region}
                         onIonChange={handleChange}
                         class='custom'
-                        required
-                    ></IonInput>
-                    <IonInput
+                    >
+                        {regionesComunas.regiones.map((region) => (
+                            <IonSelectOption key={region.region} value={region.region}>
+                                {region.region}
+                            </IonSelectOption>
+                        ))}
+                    </IonSelect>
+                    <IonSelect
                         label="Comuna"
                         name='comuna'
                         labelPlacement="stacked"
-                        placeholder="Escriba su comuna."
                         value={userData.comuna}
                         onIonChange={handleChange}
                         class='custom'
-                        required
-                    ></IonInput>
+                    >
+                        {comunas.map((comuna) => (
+                            <IonSelectOption key={comuna} value={comuna}>
+                                {comuna}
+                            </IonSelectOption>
+                        ))}
+                    </IonSelect>
                     {error && (
                         <IonText color="danger">
                             <p>{error}</p>

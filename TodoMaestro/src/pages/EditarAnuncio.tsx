@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonModal,
   IonHeader,
@@ -18,6 +18,7 @@ import {
 } from '@ionic/react';
 //@ts-ignore
 import api from '../services/api'; // Ajusta la ruta según tu proyecto
+import regionesComunas from '../assets/comunas-regiones.json';
 
 interface EditarAnuncioProps {
   isOpen: boolean;
@@ -47,6 +48,16 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
   const [comuna, setComuna] = useState(anuncio.comuna);
   const [salario, setSalario] = useState(anuncio.salario);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [comunas, setComunas] = useState<string[]>([]);
+
+  useEffect(() => {
+    const regionSeleccionada = regionesComunas.regiones.find(region => region.region === anuncio.region);
+    if (regionSeleccionada) {
+      setComunas(regionSeleccionada.comunas);
+    } else {
+      setComunas([]);
+    }
+  }, [region]);
 
   const guardarCambios = async () => {
     // Crear el objeto con los datos a enviar
@@ -124,16 +135,27 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
               value={region}
               onIonChange={(e) => setRegion(e.detail.value!)}
             >
-              <IonSelectOption value="Región Metropolitana">Región Metropolitana</IonSelectOption>
-              <IonSelectOption value="Valparaíso">Valparaíso</IonSelectOption>
-              <IonSelectOption value="Biobío">Biobío</IonSelectOption>
+              {regionesComunas.regiones.map((region) => (
+                <IonSelectOption key={region.region} value={region.region}>
+                  {region.region}
+                </IonSelectOption>
+              ))}
             </IonSelect>
           </IonItem>
 
           {/* Comuna */}
           <IonItem>
             <IonLabel position="stacked">Comuna</IonLabel>
-            <IonInput value={comuna} onIonChange={(e) => setComuna(e.detail.value!)} />
+              <IonSelect
+                value={comuna}
+                onIonChange={(e) => setComuna(e.detail.value!)}
+              >
+                {comunas.map((comuna) => (
+                  <IonSelectOption key={comuna} value={comuna}>
+                    {comuna}
+                  </IonSelectOption>
+                ))}
+            </IonSelect>
           </IonItem>
 
           {/* Salario */}

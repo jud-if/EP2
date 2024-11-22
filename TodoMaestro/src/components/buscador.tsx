@@ -12,7 +12,7 @@ const Buscador: React.FC<BuscadorProps> = ({ value, onChange }) => {
     <div style={{marginTop:"55px"}}>
       <IonSearchbar
         value={value}
-        onIonInput={(e: CustomEvent) => {
+        onIonChange={(e: CustomEvent) => {
           const inputValue = e.detail.value || ''; // Maneja valores nulos.
           console.log('Texto ingresado en Buscador:', inputValue);
           onChange(inputValue); // Notifica al componente padre.

@@ -1,0 +1,41 @@
+.btnActualizar {
+    font-weight: 800;
+    --padding-top: 15px;
+    --padding-bottom: 18px;
+    --color: #0C343C;
+    --background: #98D2DD;
+}
+
+.formularioEditar ion-input.custom {
+    --background: #DFE9FF;
+    --color: #2457c5;
+    --border-radius: 5px;
+    --placeholder-color: #7a7a7a;
+    --padding-start: 10px;
+    --highlight-color-focused: #4a47e7;
+    --border-width: 0;
+    margin-bottom: 10px;
+}
+
+.formularioEditar ion-select.custom {
+    --background: #DFE9FF;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --border-color: #ffffff00;
+    margin-bottom: 10px;
+}
+
+.formularioEditar ion-item {
+    --border-color: #ffffff00;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 10px;
+}
+
+.botonCerrar {
+    background: #98D2DD;
+    color: #0C343C;
+    border-radius: 9px;
+    box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+}
