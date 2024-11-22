@@ -1,6 +1,6 @@
 # Entrega FINAL
 
-# IMPORTANTE PARA CORRER PROYECTO:
+# IMPORTANTE para correr proyecto:
 Esta es una falla que no pudimos resolver, pero que ocurre solo la primera vez que se abre la aplicación, aquí se especifica lo que sucede:
 * Al abrir la aplicación por primera vez, e iniciar sesión, redirige al Home correctamente, pero se ve en blanco, y en el drawer (menu lateral), todas las opciones llevan hacia el inicio de sesión nuevamente, exceptuando por el Cerrar Sesión, el cual devuelve hacia la primera página de Bienvenida correctamente, además de borrar la cookie.
 * Cuando pase esto, hay que reiniciar primero el servidor de backend, y luego reiniciar el servidor de Ionic, y entonces se puede usar la aplicación correctamente.
