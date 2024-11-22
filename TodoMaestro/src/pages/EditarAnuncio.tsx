@@ -17,7 +17,7 @@ import {
   IonAlert
 } from '@ionic/react';
 //@ts-ignore
-import api from '../services/api'; // Ajusta la ruta según tu proyecto
+import api from '../services/api'; 
 import regionesComunas from '../assets/comunas-regiones.json';
 
 interface EditarAnuncioProps {
@@ -60,7 +60,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
   }, [region]);
 
   const guardarCambios = async () => {
-    // Crear el objeto con los datos a enviar
+    // Creamos el objeto con los datos a enviar
     const anuncioActualizado = {
       titulo,
       descripcion,
@@ -70,7 +70,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
     };
   
     try {
-      // Hacer la solicitud PUT al backend utilizando api.put
+      // Hacemos la solicitud PUT al backend utilizando api.put
       const response = await api.put(`/api/anuncios/${anuncio.id_ad}`, anuncioActualizado);
   
       if (response && response.status === 200) {
@@ -83,7 +83,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
       }
     } catch (error) {
       console.error('Error en la actualización:', error);
-      // Aquí podrías mostrar un mensaje de error si lo deseas
+      
     }
   };
   
@@ -111,13 +111,7 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
             <IonInput value={titulo} onIonChange={(e) => setTitle(e.detail.value!)} />
           </IonItem>
 
-          {/* Subtítulo */}
-          {/*
-          <IonItem>
-            <IonLabel position="stacked">Subtítulo</IonLabel>
-            <IonInput value={subtitle} onIonChange={(e) => setSubtitle(e.detail.value!)} />
-          </IonItem>
-          */}
+          
 
           {/* Contenido */}
           <IonItem>
@@ -187,8 +181,8 @@ const EditarAnuncio: React.FC<EditarAnuncioProps> = ({
             {
               text: 'OK',
               handler: () => {
-                setShowSuccessAlert(false); // Cierra la alerta
-                onClose(); // Cierra el formulario solo después de la alerta
+                setShowSuccessAlert(false); 
+                onClose(); 
               },
             },
           ]}

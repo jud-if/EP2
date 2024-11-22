@@ -1,7 +1,5 @@
 
 import { bookmark, bookmarkOutline, reader,trash } from 'ionicons/icons';
-
-// CardItem.tsx
 import React, { useState } from 'react';
 import LeerMas from './leerMas';
 import {
@@ -28,12 +26,6 @@ const CardItem: React.FC<CardItemProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const handleGuardarCambios = () => {
-    // Aquí harías la lógica de envío al backend
-    console.log('Datos actualizados:', props);
-    setIsEditModalOpen(false);
-    props.onRefresh?.();
-  };
   const toggleBookmark = () => {
     setBookmarked(!bookmarked);
   };
@@ -75,7 +67,6 @@ const CardItem: React.FC<CardItemProps> = (props) => {
       : []),
   ];
   
-  // Crear los datos mejorados usando el enhancer
   const enhancedData = createEnhancedCardData(
     props,
     actions)

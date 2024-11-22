@@ -33,7 +33,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [comunas, setComunas] = useState<string[]>([]);
 
-  // manejar IDs etiquetas seleccionadas
+  // manejamos las IDs etiquetas seleccionadas
   const [availableTags, setAvailableTags] = useState<{ id_etiqueta: number; nombre_etiqueta: string }[]>([]);
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
 
@@ -74,7 +74,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
         params: { id_usuario: idUsuario, fecha_creacion: fecha }
       });
       console.log('ID del anuncio:', response.data.id);
-      return response.data.id; // Suponiendo que el backend retorna el ID
+      return response.data.id; 
     } catch (error) {
       console.error('Error al obtener el ID del anuncio:', error);
       throw new Error('No se pudo obtener el ID del anuncio.');
@@ -151,7 +151,7 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
         {
           text: 'Sí',
           role: 'confirm',
-          handler: onClose, // Llama a la función de cierre si confirma
+          handler: onClose, 
         },
         {
           text: 'No',
@@ -296,8 +296,8 @@ const Publicar: React.FC<PublicarProps> = ({ onClose }) => {
             {
               text: 'OK',
               handler: () => {
-                setShowSuccessAlert(false); // Cierra la alerta
-                onClose(); // Cierra el formulario solo después de la alerta
+                setShowSuccessAlert(false);
+                onClose(); //Aquí se cierra el formulario solo después de la alerta
               },
             },
           ]}
